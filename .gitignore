@@ -3,3 +3,4 @@ __pycache__
 *.egg*
 test.ipynb
 t.ipynb
+build
