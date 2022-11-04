@@ -47,3 +47,32 @@ def plot_letter_count(df: pd.DataFrame) -> None:
     plt.xlabel("Letter")
     plt.ylabel("Count")
     plt.title("Letter Count")
+
+
+# TODO: write a robust test for this
+def plot_jumps(df: pd.DataFrame) -> None:
+    """Plot the number of jumps over time"""
+    last_char_pos = -1
+    last_line_pos = -1
+    jumps = []
+    for i, row in df.iterrows():
+        jumped = False
+        if row["Start_Char"] <= last_char_pos:
+            if row["Start_Line"] > last_line_pos and row["Start_Char"] != 0:
+                jumped = True
+        last_char_pos = row["End_Char"]
+        last_line_pos = row["End_Line"]
+        jumps.append(jumped)
+
+    y_vals = []
+    num_jumps = 0
+    for jump in jumps:
+        if jump:
+            num_jumps += 1
+        y_vals.append(num_jumps)
+
+    plt.plot(list(df.index), y_vals)
+
+    plt.xlabel("Total Number of Edits")
+    plt.ylabel("Number of Jumps")
+    plt.title("Jumps Over Time")
