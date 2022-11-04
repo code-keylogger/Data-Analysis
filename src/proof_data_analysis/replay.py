@@ -49,7 +49,9 @@ def replay(file_name, displayed_text, time_label, is_playing):
 
                 curr_event = next_text_event(events, curr_event)
 
-                while curr_event < len(events) and events[curr_event]["time"] <= curr_time:
+                while (
+                    curr_event < len(events) and events[curr_event]["time"] <= curr_time
+                ):
                     apply_text_event(events[curr_event], displayed_text)
                     curr_event = next_text_event(events, curr_event + 1)
     print("Finished Playback")
@@ -89,5 +91,6 @@ def replay_from_file(file: str = "example.json"):
     thread.start()
     window.mainloop()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     replay_from_file()
