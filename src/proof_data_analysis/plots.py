@@ -4,13 +4,15 @@ import pandas as pd
 from collections import Counter
 
 def plot_edits_over_time(df:pd.DataFrame):
-    p = plt.plot(df["Time"], list(df.index))
+    """Plot the number of edits over time"""
+    # just plotting time against the index
+    plt.plot(df["Time"], list(df.index))
+    # set graph labels
     plt.xlabel("Time")
     plt.ylabel("Total Number of Edits")
     plt.title("Edits Over Time")
-    return p
 
-def plot_letter_count(df:pd.DataFrame):
+def plot_letter_count(df:pd.DataFrame) -> None:
     # from https://stackoverflow.com/questions/26520111/how-can-i-convert-special-characters-in-a-string-back-into-escape-sequences
     def raw(string: str, replace: bool = False) -> str:
         """Returns the raw representation of a string. If replace is true, replace a single backslash's repr \\ with \."""
@@ -29,7 +31,7 @@ def plot_letter_count(df:pd.DataFrame):
     # from https://stackoverflow.com/questions/16010869/plot-a-bar-using-matplotlib-using-a-dictionary
     D = letter_counter
 
-    plt.bar(range(len(D)), list(D.values()), align='center')
+    p = plt.bar(range(len(D)), list(D.values()), align='center')
     plt.xticks(range(len(D)), list(D.keys()))
 
     plt.xlabel("Letter")
