@@ -15,4 +15,4 @@ and analysis.
    :caption: Contents:
 
    plotting.rst
-
+   replay.rst
