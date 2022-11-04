@@ -12,11 +12,3 @@ Welcome to Proof Data Analysis's documentation!
 
    plotting.rst
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
