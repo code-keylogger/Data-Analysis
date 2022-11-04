@@ -1,3 +1,4 @@
 pandas
 sphinx
 matplotlib
+sphinx-rtd-theme
