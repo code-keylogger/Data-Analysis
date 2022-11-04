@@ -1,0 +1,1984 @@
+{
+    "start": 1666896716107,
+    "events": [
+        {
+            "active": {
+                "line": 0,
+                "character": 1
+            },
+            "anchor": {
+                "line": 0,
+                "character": 1
+            },
+            "end": {
+                "line": 0,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 1,
+            "endLine": 0,
+            "endChar": 1,
+            "textChange": "H",
+            "testsPassed": [],
+            "time": 1666896719657
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 2
+            },
+            "anchor": {
+                "line": 0,
+                "character": 2
+            },
+            "end": {
+                "line": 0,
+                "character": 2
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 2
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 2,
+            "endLine": 0,
+            "endChar": 2,
+            "textChange": "e",
+            "testsPassed": [],
+            "time": 1666896719730
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 3
+            },
+            "anchor": {
+                "line": 0,
+                "character": 3
+            },
+            "end": {
+                "line": 0,
+                "character": 3
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 3
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 3,
+            "endLine": 0,
+            "endChar": 3,
+            "textChange": "l",
+            "testsPassed": [],
+            "time": 1666896719873
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 4
+            },
+            "anchor": {
+                "line": 0,
+                "character": 4
+            },
+            "end": {
+                "line": 0,
+                "character": 4
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 4
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 4,
+            "endLine": 0,
+            "endChar": 4,
+            "textChange": "l",
+            "testsPassed": [],
+            "time": 1666896720034
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 5
+            },
+            "anchor": {
+                "line": 0,
+                "character": 5
+            },
+            "end": {
+                "line": 0,
+                "character": 5
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 5
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 5,
+            "endLine": 0,
+            "endChar": 5,
+            "textChange": "o",
+            "testsPassed": [],
+            "time": 1666896720182
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 6
+            },
+            "anchor": {
+                "line": 0,
+                "character": 6
+            },
+            "end": {
+                "line": 0,
+                "character": 6
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 6
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 6,
+            "endLine": 0,
+            "endChar": 6,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896720422
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 7
+            },
+            "anchor": {
+                "line": 0,
+                "character": 7
+            },
+            "end": {
+                "line": 0,
+                "character": 7
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 7
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 7,
+            "endLine": 0,
+            "endChar": 7,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896720524
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 8
+            },
+            "anchor": {
+                "line": 0,
+                "character": 8
+            },
+            "end": {
+                "line": 0,
+                "character": 8
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 8
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 8,
+            "endLine": 0,
+            "endChar": 8,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896720613
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 9
+            },
+            "anchor": {
+                "line": 0,
+                "character": 9
+            },
+            "end": {
+                "line": 0,
+                "character": 9
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 9
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 9,
+            "endLine": 0,
+            "endChar": 9,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896720679
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 10
+            },
+            "anchor": {
+                "line": 0,
+                "character": 10
+            },
+            "end": {
+                "line": 0,
+                "character": 10
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 10
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 10,
+            "endLine": 0,
+            "endChar": 10,
+            "textChange": "s",
+            "testsPassed": [],
+            "time": 1666896720792
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 11
+            },
+            "anchor": {
+                "line": 0,
+                "character": 11
+            },
+            "end": {
+                "line": 0,
+                "character": 11
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 11
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 11,
+            "endLine": 0,
+            "endChar": 11,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896720899
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 12
+            },
+            "anchor": {
+                "line": 0,
+                "character": 12
+            },
+            "end": {
+                "line": 0,
+                "character": 12
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 12
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 12,
+            "endLine": 0,
+            "endChar": 12,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896721116
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 13
+            },
+            "anchor": {
+                "line": 0,
+                "character": 13
+            },
+            "end": {
+                "line": 0,
+                "character": 13
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 13
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 13,
+            "endLine": 0,
+            "endChar": 13,
+            "textChange": "s",
+            "testsPassed": [],
+            "time": 1666896721205
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 14
+            },
+            "anchor": {
+                "line": 0,
+                "character": 14
+            },
+            "end": {
+                "line": 0,
+                "character": 14
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 14
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 14,
+            "endLine": 0,
+            "endChar": 14,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896721322
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 15
+            },
+            "anchor": {
+                "line": 0,
+                "character": 15
+            },
+            "end": {
+                "line": 0,
+                "character": 15
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 15
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 15,
+            "endLine": 0,
+            "endChar": 15,
+            "textChange": "a",
+            "testsPassed": [],
+            "time": 1666896721438
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 16
+            },
+            "anchor": {
+                "line": 0,
+                "character": 16
+            },
+            "end": {
+                "line": 0,
+                "character": 16
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 16
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 16,
+            "endLine": 0,
+            "endChar": 16,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896721641
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 17
+            },
+            "anchor": {
+                "line": 0,
+                "character": 17
+            },
+            "end": {
+                "line": 0,
+                "character": 17
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 17
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 17,
+            "endLine": 0,
+            "endChar": 17,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896721966
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 18
+            },
+            "anchor": {
+                "line": 0,
+                "character": 18
+            },
+            "end": {
+                "line": 0,
+                "character": 18
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 18
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 18,
+            "endLine": 0,
+            "endChar": 18,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896722022
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 19
+            },
+            "anchor": {
+                "line": 0,
+                "character": 19
+            },
+            "end": {
+                "line": 0,
+                "character": 19
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 19
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 19,
+            "endLine": 0,
+            "endChar": 19,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896722073
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 20
+            },
+            "anchor": {
+                "line": 0,
+                "character": 20
+            },
+            "end": {
+                "line": 0,
+                "character": 20
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 20
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 20,
+            "endLine": 0,
+            "endChar": 20,
+            "textChange": "n",
+            "testsPassed": [],
+            "time": 1666896722204
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 21
+            },
+            "anchor": {
+                "line": 0,
+                "character": 21
+            },
+            "end": {
+                "line": 0,
+                "character": 21
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 21
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 21,
+            "endLine": 0,
+            "endChar": 21,
+            "textChange": "g",
+            "testsPassed": [],
+            "time": 1666896722279
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 22
+            },
+            "anchor": {
+                "line": 0,
+                "character": 22
+            },
+            "end": {
+                "line": 0,
+                "character": 22
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 22
+            }
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 13
+            },
+            "anchor": {
+                "line": 0,
+                "character": 22
+            },
+            "end": {
+                "line": 0,
+                "character": 22
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 13
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 13,
+            "endLine": 0,
+            "endChar": 22,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896723463
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 13
+            },
+            "anchor": {
+                "line": 0,
+                "character": 13
+            },
+            "end": {
+                "line": 0,
+                "character": 13
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 13
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 12,
+            "endLine": 0,
+            "endChar": 13,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896723635
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 12
+            },
+            "anchor": {
+                "line": 0,
+                "character": 12
+            },
+            "end": {
+                "line": 0,
+                "character": 12
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 12
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 11,
+            "endLine": 0,
+            "endChar": 12,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896723795
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 11
+            },
+            "anchor": {
+                "line": 0,
+                "character": 11
+            },
+            "end": {
+                "line": 0,
+                "character": 11
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 11
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 10,
+            "endLine": 0,
+            "endChar": 11,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896723936
+        },
+        {
+            "active": {
+                "line": 0,
+                "character": 10
+            },
+            "anchor": {
+                "line": 0,
+                "character": 10
+            },
+            "end": {
+                "line": 0,
+                "character": 10
+            },
+            "isReversed": true,
+            "start": {
+                "line": 0,
+                "character": 10
+            }
+        },
+        {
+            "startLine": 0,
+            "startChar": 10,
+            "endLine": 0,
+            "endChar": 10,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896724186
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 1
+            },
+            "anchor": {
+                "line": 1,
+                "character": 1
+            },
+            "end": {
+                "line": 1,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 1,
+            "endLine": 1,
+            "endChar": 1,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896724784
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 2
+            },
+            "anchor": {
+                "line": 1,
+                "character": 2
+            },
+            "end": {
+                "line": 1,
+                "character": 2
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 2
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 2,
+            "endLine": 1,
+            "endChar": 2,
+            "textChange": "w",
+            "testsPassed": [],
+            "time": 1666896725010
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 3
+            },
+            "anchor": {
+                "line": 1,
+                "character": 3
+            },
+            "end": {
+                "line": 1,
+                "character": 3
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 3
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 3,
+            "endLine": 1,
+            "endChar": 3,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896725087
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 4
+            },
+            "anchor": {
+                "line": 1,
+                "character": 4
+            },
+            "end": {
+                "line": 1,
+                "character": 4
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 4
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 4,
+            "endLine": 1,
+            "endChar": 4,
+            "textChange": "a",
+            "testsPassed": [],
+            "time": 1666896725163
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 5
+            },
+            "anchor": {
+                "line": 1,
+                "character": 5
+            },
+            "end": {
+                "line": 1,
+                "character": 5
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 5
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 5,
+            "endLine": 1,
+            "endChar": 5,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896725239
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 6
+            },
+            "anchor": {
+                "line": 1,
+                "character": 6
+            },
+            "end": {
+                "line": 1,
+                "character": 6
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 6
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 6,
+            "endLine": 1,
+            "endChar": 6,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896725450
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 7
+            },
+            "anchor": {
+                "line": 1,
+                "character": 7
+            },
+            "end": {
+                "line": 1,
+                "character": 7
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 7
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 7,
+            "endLine": 1,
+            "endChar": 7,
+            "textChange": "w",
+            "testsPassed": [],
+            "time": 1666896726190
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 8
+            },
+            "anchor": {
+                "line": 1,
+                "character": 8
+            },
+            "end": {
+                "line": 1,
+                "character": 8
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 8
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 8,
+            "endLine": 1,
+            "endChar": 8,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896726280
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 9
+            },
+            "anchor": {
+                "line": 1,
+                "character": 9
+            },
+            "end": {
+                "line": 1,
+                "character": 9
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 9
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 9,
+            "endLine": 1,
+            "endChar": 9,
+            "textChange": "a",
+            "testsPassed": [],
+            "time": 1666896726348
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 10
+            },
+            "anchor": {
+                "line": 1,
+                "character": 10
+            },
+            "end": {
+                "line": 1,
+                "character": 10
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 10
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 10,
+            "endLine": 1,
+            "endChar": 10,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896726421
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 11
+            },
+            "anchor": {
+                "line": 1,
+                "character": 11
+            },
+            "end": {
+                "line": 1,
+                "character": 11
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 11
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 11,
+            "endLine": 1,
+            "endChar": 11,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896726507
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 12
+            },
+            "anchor": {
+                "line": 1,
+                "character": 12
+            },
+            "end": {
+                "line": 1,
+                "character": 12
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 12
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 12,
+            "endLine": 1,
+            "endChar": 12,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896726631
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 13
+            },
+            "anchor": {
+                "line": 1,
+                "character": 13
+            },
+            "end": {
+                "line": 1,
+                "character": 13
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 13
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 13,
+            "endLine": 1,
+            "endChar": 13,
+            "textChange": "s",
+            "testsPassed": [],
+            "time": 1666896726688
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 14
+            },
+            "anchor": {
+                "line": 1,
+                "character": 14
+            },
+            "end": {
+                "line": 1,
+                "character": 14
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 14
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 14,
+            "endLine": 1,
+            "endChar": 14,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896726789
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 15
+            },
+            "anchor": {
+                "line": 1,
+                "character": 15
+            },
+            "end": {
+                "line": 1,
+                "character": 15
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 15
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 15,
+            "endLine": 1,
+            "endChar": 15,
+            "textChange": "g",
+            "testsPassed": [],
+            "time": 1666896726914
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 16
+            },
+            "anchor": {
+                "line": 1,
+                "character": 16
+            },
+            "end": {
+                "line": 1,
+                "character": 16
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 16
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 16,
+            "endLine": 1,
+            "endChar": 16,
+            "textChange": "o",
+            "testsPassed": [],
+            "time": 1666896726931
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 17
+            },
+            "anchor": {
+                "line": 1,
+                "character": 17
+            },
+            "end": {
+                "line": 1,
+                "character": 17
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 17
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 17,
+            "endLine": 1,
+            "endChar": 17,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896726987
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 18
+            },
+            "anchor": {
+                "line": 1,
+                "character": 18
+            },
+            "end": {
+                "line": 1,
+                "character": 18
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 18
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 18,
+            "endLine": 1,
+            "endChar": 18,
+            "textChange": "n",
+            "testsPassed": [],
+            "time": 1666896727032
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 19
+            },
+            "anchor": {
+                "line": 1,
+                "character": 19
+            },
+            "end": {
+                "line": 1,
+                "character": 19
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 19
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 19,
+            "endLine": 1,
+            "endChar": 19,
+            "textChange": "g",
+            "testsPassed": [],
+            "time": 1666896727145
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 20
+            },
+            "anchor": {
+                "line": 1,
+                "character": 20
+            },
+            "end": {
+                "line": 1,
+                "character": 20
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 20
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 20,
+            "endLine": 1,
+            "endChar": 20,
+            "textChange": " ",
+            "testsPassed": [],
+            "time": 1666896727249
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 21
+            },
+            "anchor": {
+                "line": 1,
+                "character": 21
+            },
+            "end": {
+                "line": 1,
+                "character": 21
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 21
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 21,
+            "endLine": 1,
+            "endChar": 21,
+            "textChange": "o",
+            "testsPassed": [],
+            "time": 1666896727530
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 22
+            },
+            "anchor": {
+                "line": 1,
+                "character": 22
+            },
+            "end": {
+                "line": 1,
+                "character": 22
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 22
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 22,
+            "endLine": 1,
+            "endChar": 22,
+            "textChange": "n",
+            "testsPassed": [],
+            "time": 1666896727581
+        },
+        {
+            "active": {
+                "line": 1,
+                "character": 23
+            },
+            "anchor": {
+                "line": 1,
+                "character": 23
+            },
+            "end": {
+                "line": 1,
+                "character": 23
+            },
+            "isReversed": true,
+            "start": {
+                "line": 1,
+                "character": 23
+            }
+        },
+        {
+            "startLine": 1,
+            "startChar": 23,
+            "endLine": 1,
+            "endChar": 23,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896727817
+        },
+        {
+            "active": {
+                "line": 2,
+                "character": 1
+            },
+            "anchor": {
+                "line": 2,
+                "character": 1
+            },
+            "end": {
+                "line": 2,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 2,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 2,
+            "startChar": 1,
+            "endLine": 2,
+            "endChar": 1,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896728012
+        },
+        {
+            "startLine": 2,
+            "startChar": 0,
+            "endLine": 2,
+            "endChar": 1,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896728014
+        },
+        {
+            "active": {
+                "line": 3,
+                "character": 1
+            },
+            "anchor": {
+                "line": 3,
+                "character": 1
+            },
+            "end": {
+                "line": 3,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 3,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 3,
+            "startChar": 1,
+            "endLine": 3,
+            "endChar": 1,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896728191
+        },
+        {
+            "startLine": 3,
+            "startChar": 0,
+            "endLine": 3,
+            "endChar": 1,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896728193
+        },
+        {
+            "active": {
+                "line": 4,
+                "character": 1
+            },
+            "anchor": {
+                "line": 4,
+                "character": 1
+            },
+            "end": {
+                "line": 4,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 4,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 4,
+            "startChar": 1,
+            "endLine": 4,
+            "endChar": 1,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896728373
+        },
+        {
+            "startLine": 4,
+            "startChar": 0,
+            "endLine": 4,
+            "endChar": 1,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896728376
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 1
+            },
+            "anchor": {
+                "line": 5,
+                "character": 1
+            },
+            "end": {
+                "line": 5,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 1,
+            "endLine": 5,
+            "endChar": 1,
+            "textChange": "P",
+            "testsPassed": [],
+            "time": 1666896728873
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 2
+            },
+            "anchor": {
+                "line": 5,
+                "character": 2
+            },
+            "end": {
+                "line": 5,
+                "character": 2
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 2
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 2,
+            "endLine": 5,
+            "endChar": 2,
+            "textChange": "u",
+            "testsPassed": [],
+            "time": 1666896729115
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 3
+            },
+            "anchor": {
+                "line": 5,
+                "character": 3
+            },
+            "end": {
+                "line": 5,
+                "character": 3
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 3
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 3,
+            "endLine": 5,
+            "endChar": 3,
+            "textChange": "r",
+            "testsPassed": [],
+            "time": 1666896729187
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 4
+            },
+            "anchor": {
+                "line": 5,
+                "character": 4
+            },
+            "end": {
+                "line": 5,
+                "character": 4
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 4
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 4,
+            "endLine": 5,
+            "endChar": 4,
+            "textChange": "t",
+            "testsPassed": [],
+            "time": 1666896729347
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 5
+            },
+            "anchor": {
+                "line": 5,
+                "character": 5
+            },
+            "end": {
+                "line": 5,
+                "character": 5
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 5
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 5,
+            "endLine": 5,
+            "endChar": 5,
+            "textChange": "i",
+            "testsPassed": [],
+            "time": 1666896729423
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 6
+            },
+            "anchor": {
+                "line": 5,
+                "character": 6
+            },
+            "end": {
+                "line": 5,
+                "character": 6
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 6
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 6,
+            "endLine": 5,
+            "endChar": 6,
+            "textChange": "l",
+            "testsPassed": [],
+            "time": 1666896729480
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 7
+            },
+            "anchor": {
+                "line": 5,
+                "character": 7
+            },
+            "end": {
+                "line": 5,
+                "character": 7
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 7
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 7,
+            "endLine": 5,
+            "endChar": 7,
+            "textChange": "o",
+            "testsPassed": [],
+            "time": 1666896729657
+        },
+        {
+            "active": {
+                "line": 5,
+                "character": 8
+            },
+            "anchor": {
+                "line": 5,
+                "character": 8
+            },
+            "end": {
+                "line": 5,
+                "character": 8
+            },
+            "isReversed": true,
+            "start": {
+                "line": 5,
+                "character": 8
+            }
+        },
+        {
+            "startLine": 5,
+            "startChar": 8,
+            "endLine": 5,
+            "endChar": 8,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896730022
+        },
+        {
+            "active": {
+                "line": 6,
+                "character": 1
+            },
+            "anchor": {
+                "line": 6,
+                "character": 1
+            },
+            "end": {
+                "line": 6,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 6,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 6,
+            "startChar": 1,
+            "endLine": 6,
+            "endChar": 1,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896730233
+        },
+        {
+            "startLine": 6,
+            "startChar": 0,
+            "endLine": 6,
+            "endChar": 1,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896730235
+        },
+        {
+            "active": {
+                "line": 7,
+                "character": 1
+            },
+            "anchor": {
+                "line": 7,
+                "character": 1
+            },
+            "end": {
+                "line": 7,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 7,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 7,
+            "startChar": 1,
+            "endLine": 7,
+            "endChar": 1,
+            "textChange": "\n ",
+            "testsPassed": [],
+            "time": 1666896730400
+        },
+        {
+            "startLine": 7,
+            "startChar": 0,
+            "endLine": 7,
+            "endChar": 1,
+            "textChange": "",
+            "testsPassed": [],
+            "time": 1666896730402
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 1
+            },
+            "anchor": {
+                "line": 8,
+                "character": 1
+            },
+            "end": {
+                "line": 8,
+                "character": 1
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 1
+            }
+        },
+        {
+            "startLine": 8,
+            "startChar": 1,
+            "endLine": 8,
+            "endChar": 1,
+            "textChange": "a",
+            "testsPassed": [],
+            "time": 1666896730857
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 2
+            },
+            "anchor": {
+                "line": 8,
+                "character": 2
+            },
+            "end": {
+                "line": 8,
+                "character": 2
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 2
+            }
+        },
+        {
+            "startLine": 8,
+            "startChar": 2,
+            "endLine": 8,
+            "endChar": 2,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896730896
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 3
+            },
+            "anchor": {
+                "line": 8,
+                "character": 3
+            },
+            "end": {
+                "line": 8,
+                "character": 3
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 3
+            }
+        },
+        {
+            "startLine": 8,
+            "startChar": 3,
+            "endLine": 8,
+            "endChar": 3,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896731038
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 4
+            },
+            "anchor": {
+                "line": 8,
+                "character": 4
+            },
+            "end": {
+                "line": 8,
+                "character": 4
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 4
+            }
+        },
+        {
+            "startLine": 8,
+            "startChar": 4,
+            "endLine": 8,
+            "endChar": 4,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896731180
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 5
+            },
+            "anchor": {
+                "line": 8,
+                "character": 5
+            },
+            "end": {
+                "line": 8,
+                "character": 5
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 5
+            }
+        },
+        {
+            "startLine": 8,
+            "startChar": 5,
+            "endLine": 8,
+            "endChar": 5,
+            "textChange": "h",
+            "testsPassed": [],
+            "time": 1666896731333
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 6
+            },
+            "anchor": {
+                "line": 8,
+                "character": 6
+            },
+            "end": {
+                "line": 8,
+                "character": 6
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 6
+            }
+        },
+        {
+            "active": {
+                "line": 8,
+                "character": 5
+            },
+            "anchor": {
+                "line": 8,
+                "character": 5
+            },
+            "end": {
+                "line": 8,
+                "character": 5
+            },
+            "isReversed": true,
+            "start": {
+                "line": 8,
+                "character": 5
+            }
+        }
+    ],
+    "end": 1666896733247
+}
