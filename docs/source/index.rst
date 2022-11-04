@@ -10,6 +10,8 @@ Welcome to Proof Data Analysis's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   plotting.rst
+
 
 
 Indices and tables
