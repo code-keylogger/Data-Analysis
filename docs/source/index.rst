@@ -6,6 +6,10 @@
 Welcome to Proof Data Analysis's documentation!
 ===============================================
 
+Documented here are all of the functions that you will need for data visualization
+and analysis.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
