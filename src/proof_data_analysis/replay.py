@@ -7,68 +7,68 @@ from functools import partial
 playbackSpeed = 1
 
 
-def setSpeed(speed):
+def set_speed(speed):
     global playbackSpeed
     playbackSpeed = speed
 
 
-def nextTextEvent(events, startIndex):
+def next_text_event(events, start_index):
     """Starts searching the events array at start index and returns the index of the next text event
     (including the start index if it is a text event). Returns an index out of bounds of the array
     if there is no text event left in the array"""
-    currIndex = startIndex
-    while currIndex < len(events) and "textChange" not in events[currIndex]:
-        currIndex += 1
+    curr_index = start_index
+    while curr_index < len(events) and "textChange" not in events[curr_index]:
+        curr_index += 1
 
-    return currIndex
+    return curr_index
 
 
-def applyTextEvent(event, displayedText):
+def apply_text_event(event, displayed_text):
     location = str(event["startLine"] + 1) + "." + str(event["startChar"])
     if event["textChange"] == "":
-        displayedText.delete(location)
+        displayed_text.delete(location)
     else:
-        displayedText.insert(location, event["textChange"])
+        displayed_text.insert(location, event["textChange"])
 
 
-def replay(fileName, displayedText, timeLabel, isPlaying):
+def replay(file_name, displayed_text, time_label, is_playing):
     FRAME_TIME = 0.01
     SECONDS_TO_MILLISECONDS = 1000
     PAUSE_TIMEOUT = 10
-    with open(fileName) as file:
+    with open(file_name) as file:
         data = json.loads(file.read())
-        currTime = data["start"]
+        curr_time = data["start"]
         events = data["events"]
-        currEvent = 0
+        curr_event = 0
 
-        while currEvent < len(events):
-            if isPlaying.wait(PAUSE_TIMEOUT):
+        while curr_event < len(events):
+            if is_playing.wait(PAUSE_TIMEOUT):
                 time.sleep(FRAME_TIME)
-                currTime += FRAME_TIME * SECONDS_TO_MILLISECONDS * playbackSpeed
-                timeLabel.config(text=(currTime - data["start"]) / 1000)
+                curr_time += FRAME_TIME * SECONDS_TO_MILLISECONDS * playbackSpeed
+                time_label.config(text=(curr_time - data["start"]) / 1000)
 
-                currEvent = nextTextEvent(events, currEvent)
+                curr_event = next_text_event(events, curr_event)
 
-                while currEvent < len(events) and events[currEvent]["time"] <= currTime:
-                    applyTextEvent(events[currEvent], displayedText)
-                    currEvent = nextTextEvent(events, currEvent + 1)
+                while curr_event < len(events) and events[curr_event]["time"] <= curr_time:
+                    apply_text_event(events[curr_event], displayed_text)
+                    curr_event = next_text_event(events, curr_event + 1)
     print("Finished Playback")
 
 
 def replay_from_file(file: str = "example.json"):
-    isPlaying = threading.Event()
+    is_playing = threading.Event()
 
     window = tkinter.Tk()
-    playButton = tkinter.Button(text="play", command=isPlaying.set)
-    pauseButton = tkinter.Button(text="pause", command=isPlaying.clear)
-    halfSpeed = tkinter.Button(text="0.5x Speed", command=partial(setSpeed, 0.5))
-    normalSpeed = tkinter.Button(text="Normal Speed", command=partial(setSpeed, 1))
-    doubleSpeed = tkinter.Button(text="2x Speed", command=partial(setSpeed, 2))
-    quadSpeed = tkinter.Button(text="4x Speed", command=partial(setSpeed, 4))
-    timeLabel = tkinter.Label(text="Not Yet Playing")
+    playButton = tkinter.Button(text="play", command=is_playing.set)
+    pauseButton = tkinter.Button(text="pause", command=is_playing.clear)
+    halfSpeed = tkinter.Button(text="0.5x Speed", command=partial(set_speed, 0.5))
+    normalSpeed = tkinter.Button(text="Normal Speed", command=partial(set_speed, 1))
+    doubleSpeed = tkinter.Button(text="2x Speed", command=partial(set_speed, 2))
+    quadSpeed = tkinter.Button(text="4x Speed", command=partial(set_speed, 4))
+    time_label = tkinter.Label(text="Not Yet Playing")
     textBox = tkinter.Text()
 
-    timeLabel.pack()
+    time_label.pack()
     playButton.pack()
     halfSpeed.pack()
     normalSpeed.pack()
@@ -82,8 +82,8 @@ def replay_from_file(file: str = "example.json"):
         args=(
             file,
             textBox,
-            timeLabel,
-            isPlaying,
+            time_label,
+            is_playing,
         ),
     )
     thread.start()
