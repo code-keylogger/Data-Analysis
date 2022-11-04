@@ -5,8 +5,7 @@ test:
   stage: test
   script:
   - pip install -U sphinx
-  - echo $(ls)
-  # - sphinx-build -b html docs/source public
+  - sphinx-build -b html docs/source public
   rules:
     - if: $CI_COMMIT_REF_NAME != $CI_DEFAULT_BRANCH
     
