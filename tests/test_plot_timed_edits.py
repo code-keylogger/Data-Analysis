@@ -1,5 +1,5 @@
-from proof_data_analysis.utils import load_df
 from proof_data_analysis.plots import plot_edits_over_time, plot_letter_count
+from proof_data_analysis.utils import load_df
 
 
 class TestPlotTimedEdits:
