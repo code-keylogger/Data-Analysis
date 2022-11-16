@@ -2,27 +2,23 @@ from collections import Counter
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from proof_data_analysis.utils import times_to_seconds, get_num_tests_passed
 
 
-def times_to_seconds(time: pd.Series) -> pd.Series:
-    """Convert a series of time stamps to seconds
-    
-    Each resulting datapoint is just the amount of seconds from the 
-    first time stamp
-    """
-    # get the first time stamp
-    first_time = time.iloc[0]
-    # convert each time stamp to seconds
-    return time.apply(lambda x: (x - first_time).total_seconds())
-
-def plot_edits_over_time(df: pd.DataFrame) -> None:
-    """Plot the number of edits over time"""
+def plot_edits(df: pd.DataFrame) -> None:
+    """Plot the number of edits, as well as tests passing over time"""
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
     # just plotting time against the index
-    plt.plot(times_to_seconds(df["Time"]), list(df.index), 'o-')
+    ax1.plot(times_to_seconds(df["Time"]), list(df.index), "o-")
+    
+    ax2.plot(times_to_seconds(df["Time"]), get_num_tests_passed(df["Tests_Passed"]), "o-", color="red")
+    
     # set graph labels
-    plt.xlabel("Time (seconds)")
-    plt.ylabel("Total Number of Edits")
-    plt.title("Edits Over Time")
+    ax1.set_xlabel("Time (seconds)")
+    ax1.set_ylabel("Total Number of Edits")
+    ax2.set_ylabel("Number of Tests Passing")
+    fig.suptitle("Edits Over Time")
 
 
 def plot_letter_count(df: pd.DataFrame) -> None:

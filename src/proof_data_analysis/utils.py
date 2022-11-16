@@ -34,6 +34,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
             "End_Line",
             "Start_Char",
             "End_Char",
+            "Tests_Passed",
         ]
     )
 
@@ -51,6 +52,28 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
                 event["endLine"],
                 event["startChar"],
                 event["endChar"],
+                event["testsPassed"],
             )
 
     return df
+
+
+def times_to_seconds(time: pd.Series) -> pd.Series:
+    """Convert a series of time stamps to seconds
+
+    Each resulting datapoint is just the amount of seconds from the
+    first time stamp
+    """
+    # get the first time stamp
+    first_time = time.iloc[0]
+    # convert each time stamp to seconds
+    return time.apply(lambda x: (x - first_time).total_seconds())
+
+def get_num_tests_passed(tests_passed:pd.Series) -> pd.Series:
+    """Convert a series of tests passed to a series of numbers
+
+    Each resulting datapoint is just the number of tests passed
+
+    e.g. [[1,2], [3,4], [1,2,3]] -> [2, 2, 3]
+    """
+    return tests_passed.apply(lambda x: len(x))
