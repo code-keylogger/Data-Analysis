@@ -12,6 +12,7 @@ test:
 pages:
   stage: deploy
   script:
+  - export PATH=$PATH:/home/gitlab-runner/.local/bin
   - pip install -U sphinx
   - sphinx-build -b html docs/source public
   artifacts:
