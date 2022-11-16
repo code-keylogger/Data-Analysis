@@ -2,22 +2,39 @@ from collections import Counter
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from proof_data_analysis.utils import times_to_seconds, get_num_tests_passed
+
+from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
 
 def plot_edits(df: pd.DataFrame) -> None:
     """Plot the number of edits, as well as tests passing over time"""
     fig, ax1 = plt.subplots()
+
     ax2 = ax1.twinx()
-    # just plotting time against the index
-    ax1.plot(times_to_seconds(df["Time"]), list(df.index), "o-")
+    # plotting the number of insertions
     
-    ax2.plot(times_to_seconds(df["Time"]), get_num_tests_passed(df["Tests_Passed"]), "o-", color="red")
-    
+    insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" else 0)
+    insertions = insertions.cumsum()
+    ax1.plot(times_to_seconds(df["Time"]), insertions, "o-", color="green")
+
+    deletions = df["Event_Type"].apply(lambda x: 1 if x == "delete" else 0)
+    deletions = deletions.cumsum()
+    ax1.plot(times_to_seconds(df["Time"]), deletions, "o-", color="blue")
+
+    # plotting tests passing
+    ax2.plot(
+        times_to_seconds(df["Time"]),
+        get_num_tests_passed(df["Tests_Passed"]),
+        "o-",
+        color="red",
+    )
+
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
     ax1.set_ylabel("Total Number of Edits")
     ax2.set_ylabel("Number of Tests Passing")
+    ax1.legend(["Insertions", "Deletions"], loc="upper left")
+    ax2.legend(["# of Tests Passing"], loc="lower left")
     fig.suptitle("Edits Over Time")
 
 

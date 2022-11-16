@@ -35,6 +35,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
             "Start_Char",
             "End_Char",
             "Tests_Passed",
+            "Event_Type"
         ]
     )
 
@@ -53,6 +54,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
                 event["startChar"],
                 event["endChar"],
                 event["testsPassed"],
+                "delete" if event["textChange"] == "" else "insert"
             )
 
     return df
@@ -69,7 +71,8 @@ def times_to_seconds(time: pd.Series) -> pd.Series:
     # convert each time stamp to seconds
     return time.apply(lambda x: (x - first_time).total_seconds())
 
-def get_num_tests_passed(tests_passed:pd.Series) -> pd.Series:
+
+def get_num_tests_passed(tests_passed: pd.Series) -> pd.Series:
     """Convert a series of tests passed to a series of numbers
 
     Each resulting datapoint is just the number of tests passed
