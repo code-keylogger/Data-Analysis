@@ -3,7 +3,7 @@ import threading
 import time
 import tkinter
 from functools import partial
-from typing import List, Dict, Tuple
+from typing import Dict, List
 
 playback_speed = 1
 
@@ -26,7 +26,7 @@ def next_text_event(events: List[Dict], start_index: int):
     return curr_index
 
 
-def apply_text_event(event: dict, displayed_text: tkinter.Text):
+def apply_text_event(event: Dict, displayed_text: tkinter.Text):
     """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
     location = str(event["startLine"] + 1) + "." + str(event["startChar"])
     if event["textChange"] == "":

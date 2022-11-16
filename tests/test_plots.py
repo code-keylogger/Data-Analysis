@@ -1,8 +1,4 @@
-from proof_data_analysis.plots import (
-    plot_edits,
-    plot_jumps,
-    plot_letter_count,
-)
+from proof_data_analysis.plots import plot_edits, plot_jumps, plot_letter_count
 from proof_data_analysis.utils import load_df
 
 

@@ -12,7 +12,7 @@ def plot_edits(df: pd.DataFrame) -> None:
 
     ax2 = ax1.twinx()
     # plotting the number of insertions
-    
+
     insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" else 0)
     insertions = insertions.cumsum()
     ax1.plot(times_to_seconds(df["Time"]), insertions, "o-", color="green")
