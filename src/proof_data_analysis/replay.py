@@ -9,7 +9,7 @@ playback_speed = 1
 
 def set_speed(speed: float):
     """Sets the speed of the playback. Speed is the coefficient of time, with 1 being normal speed,
-     2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
+    2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
     global playback_speed
     playback_speed = speed
 
@@ -34,7 +34,12 @@ def apply_text_event(event: dict, displayed_text: tkinter.Text):
         displayed_text.insert(location, event["textChange"])
 
 
-def replay(file_name: str, displayed_text: tkinter.Text, time_label: tkinter.Label, is_playing: threading.Event):
+def replay(
+    file_name: str,
+    displayed_text: tkinter.Text,
+    time_label: tkinter.Label,
+    is_playing: threading.Event,
+):
     """Attempts to open the file file_name (JSON data captured by the plugin) and then replays the captured data onto displayed_text.
     time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
     and will stop playing when it is cleared."""
