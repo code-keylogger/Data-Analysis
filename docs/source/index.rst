@@ -16,3 +16,4 @@ and analysis.
 
    plotting.rst
    replay.rst
+   data.rst
