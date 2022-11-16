@@ -3,6 +3,7 @@ import threading
 import time
 import tkinter
 from functools import partial
+from typing import List, Dict, Tuple
 
 playback_speed = 1
 
@@ -14,7 +15,7 @@ def set_speed(speed: float):
     playback_speed = speed
 
 
-def next_text_event(events: list[dict], start_index: int):
+def next_text_event(events: List[Dict], start_index: int):
     """Starts searching the events array at start index and returns the index of the next text event
     (including the start index if it is a text event). Returns an index out of bounds of the array
     if there is no text event left in the array."""
