@@ -80,11 +80,3 @@ def get_num_tests_passed(tests_passed: pd.Series) -> pd.Series:
     e.g. [[1,2], [3,4], [1,2,3]] -> [2, 2, 3]
     """
     return tests_passed.apply(lambda x: len(x))
-
-
-def apply_text_event(body: str, event: pd.Series) -> str:
-    location = str(event["Start_Line"] + 1) + "." + str(event["Start_Char"])
-    if event["textChange"] == "":
-        displayed_text.delete(location)
-    else:
-        displayed_text.insert(location, event["textChange"])

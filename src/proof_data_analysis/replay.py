@@ -94,17 +94,14 @@ def replay_from_file(file: str = "example.json"):
     text_box.pack()
 
     thread = threading.Thread(
-        target=replay,
-        args=(
-            file,
-            text_box,
-            time_label,
-            is_playing,
-        ),
+        target=replay, args=(file, text_box, time_label, is_playing,),
     )
     thread.start()
     window.mainloop()
 
 
 if __name__ == "__main__":
-    replay_from_file()
+    import sys
+
+    sys.path.append("../../")
+    replay_from_file("tests/example.json")
