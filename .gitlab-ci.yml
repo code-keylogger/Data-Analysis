@@ -14,8 +14,8 @@ pages:
   script:
   - export PATH=$PATH:/home/gitlab-runner/.local/bin
   - pip3 install sphinx sphinx_rtd_theme
-  - pip install -e .
-  - pip install -U sphinx
+  - pip3 install -e .
+  - pip3 install -U sphinx
   - sphinx-build -b html docs/source public
   artifacts:
     paths:
