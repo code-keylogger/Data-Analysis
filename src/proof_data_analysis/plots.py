@@ -4,21 +4,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def times_to_seconds(time: pd.Series) -> pd.Series:
-    """Convert a series of time stamps to seconds
-    
-    Each resulting datapoint is just the amount of seconds from the 
-    first time stamp
-    """
-    # get the first time stamp
-    first_time = time.iloc[0]
-    # convert each time stamp to seconds
-    return time.apply(lambda x: (x - first_time).total_seconds())
-
 def plot_edits_over_time(df: pd.DataFrame) -> None:
     """Plot the number of edits over time"""
     # just plotting time against the index
-    plt.plot(times_to_seconds(df["Time"]), list(df.index), 'o-')
+    plt.plot(times_to_seconds(df["Time"]), list(df.index), "o-")
     # set graph labels
     plt.xlabel("Time (seconds)")
     plt.ylabel("Total Number of Edits")
