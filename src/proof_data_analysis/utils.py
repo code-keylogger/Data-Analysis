@@ -34,6 +34,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
             "End_Line",
             "Start_Char",
             "End_Char",
+            "Tests_Passed"
         ]
     )
 
@@ -51,6 +52,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
                 event["endLine"],
                 event["startChar"],
                 event["endChar"],
+                event["testsPassed"]
             )
 
     return df
