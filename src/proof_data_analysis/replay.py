@@ -104,4 +104,4 @@ if __name__ == "__main__":
     import sys
 
     sys.path.append("../../")
-    replay_from_file("tests/example.json")
+    replay_from_file("tests/example2.json")
