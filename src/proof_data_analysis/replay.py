@@ -25,7 +25,7 @@ class Replay:
     def set_speed(self, speed: float):
         """Sets the speed of the playback. Speed is the coefficient of time, with 1 being normal speed,
         2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
-        playback_speed = speed
+        self.playback_speed = speed
 
 
     def next_text_event(self, start_index: int):
@@ -47,7 +47,16 @@ class Replay:
         else:
             self.displayed_text.insert(location, event["textChange"])
 
+    def update_text(self):
+        """updates displayed_text with any events that have occured since curr_time was increased"""
+        while (
+                    self.curr_event < len(self.events) and self.events[self.curr_event]["time"] <= self.curr_time
+                ):
+                    self.apply_text_event(self.events[self.curr_event])
+                    self.curr_event = self.next_text_event(self.curr_event + 1)
+
     def rewind_to_time(self, time: int):
+        """Reverts the state of the playback to the specified time"""
         event = self.next_text_event(0)
         next_event = self.next_text_event(event + 1)
         time_absolute = time + self.start_time
@@ -66,13 +75,10 @@ class Replay:
         self.curr_event = self.next_text_event(0)
         self.curr_time = int(event["time"])
         self.displayed_text.delete('1.0', 'end')
-        while (
-                    self.curr_event < len(self.events) and self.events[self.curr_event]["time"] <= self.curr_time
-                ):
-                    self.apply_text_event(self.events[self.curr_event])
-                    self.curr_event = self.next_text_event(self.curr_event + 1)
+        self.update_text()
 
     def scrub_to_event(self, event: str):
+        """Updates the playback to the event specified"""
         self.is_playing.clear()
         delta_event = int(event) - self.curr_event
         i = self.curr_event
@@ -83,26 +89,22 @@ class Replay:
                 if i < len(self.events):
                     self.apply_text_event(self.events[i])
                 i += 1
-
         elif (delta_event < 0):
             next_index = self.next_text_event(int(event))
             if next_index < len(self.events):
                 self.revert_to_event(self.events[next_index])
 
     def scrub_to_time(self, time: str):
+        """Updates the playback to the time specified"""
         self.is_playing.clear()
         delta_time = int(time) - (self.curr_time - self.start_time)
         self.curr_time += delta_time
         if (delta_time > 0):
-            while (
-                    self.curr_event < len(self.events) and self.events[self.curr_event]["time"] <= self.curr_time
-                ):
-                    self.apply_text_event(self.events[self.curr_event])
-                    self.curr_event = self.next_text_event(self.curr_event + 1)
+            self.update_text()
         elif (delta_time < 0):
             self.rewind_to_time(int(time))
 
-    def startPlayback(self, data: dict, time_label: tkinter.Label, time_slider: tkinter.Scale, event_slider: tkinter.Scale):
+    def startPlayback(self, data: dict, time_label: tkinter.Label):
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
         time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
         and will stop playing when it is cleared."""
@@ -119,11 +121,7 @@ class Replay:
                     self.curr_event = self.next_text_event(self.curr_event)
                     self.displayed_event.set(self.curr_event)
 
-                    while (
-                        self.curr_event < len(events) and events[self.curr_event]["time"] <= self.curr_time
-                    ):
-                        self.apply_text_event(events[self.curr_event])
-                        self.curr_event = self.next_text_event(self.curr_event + 1)
+                    self.update_text()
 
 
     def createWindow(self):
@@ -180,8 +178,6 @@ class Replay:
                 args=(
                     file_data,
                     time_label,
-                    time_slider,
-                    event_slider,
                 ),
             )
             thread.start()
