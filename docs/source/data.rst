@@ -1,6 +1,16 @@
 Data 
 ========
 
+Downloading the Data 
+*********************************
+
+To download the data, run the following command at the root level of this project
+
+.. code-block:: bash
+
+    mkdir data/
+    curl --location --request GET 'http://virulent.cs.umd.edu:3000/sessions' > data/sessions.json
+
 
 Understanding Stored Data
 *********************************
@@ -37,7 +47,7 @@ Mouse movements and highlights
             "line": 0,
             "character": 1
         }
-    },
+    }
 
 Keyboard Events
 ####################################
