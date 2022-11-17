@@ -2,6 +2,7 @@ import json
 import threading
 import time
 import tkinter
+import sys
 from functools import partial
 
 
@@ -190,4 +191,7 @@ class Replay:
 
 if __name__ == "__main__":
     playback = Replay()
-    playback.replay_from_file()
+    if len(sys.argv) > 1:
+        playback.replay_from_file(sys.argv[1])
+    else:
+        playback.replay_from_file()
