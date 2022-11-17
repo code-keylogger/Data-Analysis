@@ -20,14 +20,19 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
     it to a pandas dataframe.
 
     :param path_to_json: path to the json file with the keylogged events
-    :return: a pandas dataframe with the columns ["Time", "Text_Change", "Start_Line", "End_Line", "Start_Char", "End_Char"]"""
+    :return: a pandas dataframe with a row for each keylogged event"""
     # load json
     json_object = load_json(path_to_json)
     # get the list of events
-    events = json_object["events"]
+    sessions = json_object["sessions"]
     # create an empty dataframe
     df = pd.DataFrame(
         columns=[
+            "_id",
+            "User_ID",
+            "Problem_ID",
+            "Problem_Start_Time",
+            "Problem_End_Time",
             "Time",
             "Text_Change",
             "Start_Line",
@@ -39,23 +44,26 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
         ]
     )
 
-    # iterate through the events
-    for event in events:
-        # ensure this event has time
-        if "time" in event:
-            # get the time
-            time = datetime.datetime.fromtimestamp(event["time"] / 1000)
-            # store the time/text changed in the dataframe
-            df.loc[len(df)] = (
-                time,
-                event["textChange"],
-                event["startLine"],
-                event["endLine"],
-                event["startChar"],
-                event["endChar"],
-                event["testsPassed"],
-                "delete" if event["textChange"] == "" else "insert",
-            )
+    for session in sessions:
+        for event in session["events"]:
+            if "startLine" in event:
+                time = datetime.datetime.fromtimestamp(event["time"] / 1000)
+                # store the time/text changed in the dataframe
+                df.loc[len(df)] = (
+                    session["_id"],
+                    session["userID"],
+                    session["problemID"],
+                    session["start"],
+                    session["end"],
+                    time,
+                    event["textChange"],
+                    event["startLine"],
+                    event["endLine"],
+                    event["startChar"],
+                    event["endChar"],
+                    event["testsPassed"],
+                    "delete" if event["textChange"] == "" else "insert",
+                )
 
     return df
 
