@@ -93,6 +93,7 @@ class Replay:
             next_index = self.next_text_event(int(event))
             if next_index < len(self.events):
                 self.revert_to_event(self.events[next_index])
+        self.displayed_time.set(self.curr_time - self.start_time)
 
     def scrub_to_time(self, time: str):
         """Updates the playback to the time specified"""
@@ -103,6 +104,7 @@ class Replay:
             self.update_text()
         elif (delta_time < 0):
             self.rewind_to_time(int(time))
+        self.displayed_event.set(self.curr_event)
 
     def startPlayback(self, data: dict, time_label: tkinter.Label):
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
