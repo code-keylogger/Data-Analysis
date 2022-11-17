@@ -10,3 +10,5 @@ To launch the website locally, run
 `pip install sphinx-autobuild`
 
 `sphinx-autobuild docs/source build/`
+
+To perform code styling, just run make in the root directory.
