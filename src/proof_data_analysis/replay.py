@@ -23,10 +23,10 @@ class Replay:
     displayed_text = {}
     events = []
 
-    def set_speed(self, speed: float):
+    def set_speed(self, speed: str):
         """Sets the speed of the playback. Speed is the coefficient of time, with 1 being normal speed,
         2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
-        self.playback_speed = speed
+        self.playback_speed = float(speed)
 
     def apply_text_event(self, event: dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
@@ -123,19 +123,19 @@ class Replay:
         """Creates the tkinter window and interface for the replay function."""
         window = tkinter.Tk()
 
+        speeds = [0.25, 0.5, 1, 2, 4]
+        speed_label = tkinter.StringVar()
+        speed_label.set("1")
+
         play_button = tkinter.Button(text="play", command=self.is_playing.set)
         pause_button = tkinter.Button(text="pause", command=self.is_playing.clear)
-        half_speed = tkinter.Button(text="0.5x Speed", command=partial(self.set_speed, 0.5))
-        normal_speed = tkinter.Button(text="Normal Speed", command=partial(self.set_speed, 1))
-        double_speed = tkinter.Button(text="2x Speed", command=partial(self.set_speed, 2))
-        quad_speed = tkinter.Button(text="4x Speed", command=partial(self.set_speed, 4))
+        speed_dropdown = tkinter.OptionMenu(window, speed_label, *speeds, command=self.set_speed)
+        
 
         play_button.pack()
         pause_button.pack()
-        # half_speed.pack()
-        normal_speed.pack()
-        double_speed.pack()
-        # quad_speed.pack()
+        speed_dropdown.pack()
+        
 
         return window
 
