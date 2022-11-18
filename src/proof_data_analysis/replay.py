@@ -13,7 +13,6 @@ class Replay:
     PAUSE_TIMEOUT = 1
     playback_speed = 1
     is_playing = threading.Event()
-    window_open = threading.Event()
     start_time = 0
     end_time = 0
     curr_event = 0
@@ -115,16 +114,14 @@ class Replay:
         and will stop playing when it is cleared."""
         self.curr_time = self.start_time
         self.apply_text_event(self.events[0])
-        while self.window_open.is_set():
+        while True:
             if self.is_playing.wait(Replay.PAUSE_TIMEOUT):
                 if self.curr_time < self.end_time:
                     time.sleep(Replay.FRAME_TIME)
                     self.curr_time += Replay.FRAME_TIME * Replay.SECONDS_TO_MILLISECONDS * self.playback_speed
                     time_label.config(text=(self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
                     self.displayed_time.set(self.curr_time - self.start_time)
-
                     self.displayed_event.set(self.curr_event)
-
                     self.update_text()
 
 
@@ -133,11 +130,11 @@ class Replay:
         window = tkinter.Tk()
 
         speeds = [0.25, 0.5, 1, 2, 4]
-        speed_label = tkinter.StringVar()
+        speed_label = tkinter.StringVar(window)
         speed_label.set("1")
 
-        play_button = tkinter.Button(text="play", command=self.is_playing.set)
-        pause_button = tkinter.Button(text="pause", command=self.is_playing.clear)
+        play_button = tkinter.Button(window, text="play", command=self.is_playing.set)
+        pause_button = tkinter.Button(window, text="pause", command=self.is_playing.clear)
         speed_dropdown = tkinter.OptionMenu(window, speed_label, *speeds, command=self.set_speed)
         
 
@@ -166,16 +163,16 @@ class Replay:
 
             window = self.createWindow()
 
-            self.displayed_time = tkinter.IntVar()
-            self.displayed_event = tkinter.IntVar()
+            self.displayed_time = tkinter.IntVar(master=window)
+            self.displayed_event = tkinter.IntVar(master=window)
 
             time_slider = tkinter.Scale(window, from_=0, to=end_time, length=600, variable=self.displayed_time, orient="horizontal", command=self.scrub_to_time);
             event_slider = tkinter.Scale(
                 window, from_=0, to=len(self.events) - 1, length=600, variable=self.displayed_event, orient="horizontal", command=self.scrub_to_event
                 )
 
-            time_label = tkinter.Label(text="Not Yet Playing")
-            self.displayed_text = tkinter.Text()
+            time_label = tkinter.Label(window, text="Not Yet Playing")
+            self.displayed_text = tkinter.Text(window)
             self.displayed_text.configure(state="disabled")
             
             time_slider.pack()
@@ -184,17 +181,16 @@ class Replay:
             time_label.pack()
             self.displayed_text.pack()
 
-            self.window_open.set()
-
             thread = threading.Thread(
                 target=self.startPlayback,
                 args=(
                     time_label,
                 ),
             )
+            thread.daemon = True
             thread.start()
+            
             window.mainloop()
-            self.window_open.clear()
 
 
 if __name__ == "__main__":
