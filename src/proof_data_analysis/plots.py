@@ -94,9 +94,12 @@ def plot_letter_count(df: pd.DataFrame) -> None:
         # get raw representation of the text, that \n and \t are not escaped
         letter_counter[raw(row["Text_Change"])] += 1
 
+    # remove "" which is no text changed
+    letter_counter.pop('')
+
     # deal with special case of space
     empty = letter_counter.pop(" ")
-    letter_counter[repr("")] = empty
+    letter_counter[repr(" ")] = empty
 
     # plot the bar graph
     # from https://stackoverflow.com/questions/16010869/plot-a-bar-using-matplotlib-using-a-dictionary
