@@ -6,9 +6,10 @@ import pandas as pd
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
 
-def plot_edits(df: pd.DataFrame) -> None:
+def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> None:
     """Plot the number of edits, as well as tests passing over time"""
-    fig, ax1 = plt.subplots()
+    if not ax1:
+        fig, ax1 = plt.subplots()
 
     ax2 = ax1.twinx()
     # plotting the number of insertions
@@ -35,7 +36,43 @@ def plot_edits(df: pd.DataFrame) -> None:
     ax2.set_ylabel("Number of Tests Passing")
     ax1.legend(["Insertions", "Deletions"], loc="upper left")
     ax2.legend(["# of Tests Passing"], loc="lower left")
-    fig.suptitle("Edits Over Time")
+    title = "Edits Over Time"
+    if id:
+        title += f" (ID: {id})"
+    ax1.set_title(title)
+
+    return ax1, ax2
+
+
+def plot_problem(df: pd.DataFrame, problem: str = "637690c2e5246059c7ccb834") -> None:
+    """Show multiple plots of different completions of the same problem."""
+    # group df by problem id
+    groupby_problem = df.groupby(["Problem_ID"])
+    # get the problem we want
+    problem = groupby_problem.get_group(problem)
+    # group by user id
+    session_groups = problem.groupby(["_id"])
+    # plot up to 9 sessions
+    fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(20, 20))
+    # indices for axs
+    locs = [[i, j] for i in range(3) for j in range(3)]
+    # iterate through each session
+    for i, (title, group) in enumerate(session_groups):
+        # get the location in the subplot
+        i, j = locs[i]
+        # plot the edits
+        ax1, ax2 = plot_edits(group, axs[i, j], title)
+
+        # carefully remove some y labels so they don't overlap
+        if not i == 2:
+            ax2.set_ylabel("")
+
+        if not j == 0:
+            ax1.set_ylabel("")
+
+        # only plot up to 9 sessions
+        if i >= 8:
+            break
 
 
 def plot_letter_count(df: pd.DataFrame) -> None:
@@ -65,7 +102,9 @@ def plot_letter_count(df: pd.DataFrame) -> None:
     # from https://stackoverflow.com/questions/16010869/plot-a-bar-using-matplotlib-using-a-dictionary
     D = letter_counter
 
-    plt.bar(range(len(D)), list(D.values()), align="center")
+    ax, fig = plt.subplots()
+
+    fig.bar(range(len(D)), list(D.values()), align="center")
     plt.xticks(range(len(D)), list(D.keys()))
 
     plt.xlabel("Letter")
