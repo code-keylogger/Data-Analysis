@@ -17,8 +17,9 @@ class Replay:
     end_time = 0
     curr_event = 0
     curr_time = 0
-    displayed_event = 0
-    displayed_time = 0
+    slider_event = 0
+    slider_time = 0
+    displayed_time = {}
     displayed_text = {}
     events = []
 
@@ -97,7 +98,8 @@ class Replay:
             if next_index < len(self.events):
                 self.revert_to_event(next_index)
         self.curr_time = self.events[self.curr_event]["time"]
-        self.displayed_time.set(self.curr_time - self.start_time)
+        self.slider_time.set(self.curr_time - self.start_time)
+        self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
 
     def scrub_to_time(self, time: str):
         """Updates the playback to the time specified"""
@@ -108,7 +110,8 @@ class Replay:
             self.update_text()
         elif (delta_time < 0):
             self.rewind_to_time(int(time))
-        self.displayed_event.set(self.curr_event)
+        self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
+        self.slider_event.set(self.curr_event)
 
     def startPlayback(self, time_label: tkinter.Label):
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
@@ -121,10 +124,10 @@ class Replay:
                 if self.curr_time < self.end_time:
                     time.sleep(Replay.FRAME_TIME)
                     self.curr_time += Replay.FRAME_TIME * Replay.SECONDS_TO_MILLISECONDS * self.playback_speed
-                    time_label.config(text=(self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
-                    self.displayed_time.set(self.curr_time - self.start_time)
+                    self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
+                    self.slider_time.set(self.curr_time - self.start_time)
                     self.update_text()
-                    self.displayed_event.set(self.curr_event)
+                    self.slider_event.set(self.curr_event)
                     
 
 
@@ -143,7 +146,6 @@ class Replay:
         pause_button = tkinter.Button(buttonsFrame, text="pause", command=self.is_playing.clear)
         speed_dropdown = tkinter.OptionMenu(buttonsFrame, speed_label, *speeds, command=self.set_speed)
         
-
         play_button.pack(side="left")
         pause_button.pack(side="left")
         speed_dropdown.pack(side="left")
@@ -169,15 +171,17 @@ class Replay:
 
             window = self.createWindow()
 
-            self.displayed_time = tkinter.IntVar(master=window)
-            self.displayed_event = tkinter.IntVar(master=window)
+            self.slider_time = tkinter.IntVar()
+            self.slider_event = tkinter.IntVar()
+            self.displayed_time = tkinter.StringVar()
+            self.displayed_time.initialize("Not Yet Playing")
 
-            time_slider = tkinter.Scale(window, from_=0, to=end_time, length=600, variable=self.displayed_time, orient="horizontal", command=self.scrub_to_time);
+            time_slider = tkinter.Scale(window, from_=0, to=end_time, length=600, label="Time", showvalue=0, variable=self.slider_time, orient="horizontal", command=self.scrub_to_time);
             event_slider = tkinter.Scale(
-                window, from_=0, to=len(self.events) - 1, length=600, variable=self.displayed_event, orient="horizontal", command=self.scrub_to_event
+                window, from_=0, to=len(self.events) - 1, length=600, label="Event", variable=self.slider_event, orient="horizontal", command=self.scrub_to_event
                 )
 
-            time_label = tkinter.Label(window, text="Not Yet Playing")
+            time_label = tkinter.Label(window, textvariable=self.displayed_time)
             self.displayed_text = tkinter.Text(window)
             self.displayed_text.configure(state="disabled")
             
