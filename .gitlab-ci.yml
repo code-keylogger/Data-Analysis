@@ -12,7 +12,12 @@ test:
 pages:
   stage: deploy
   script:
-  - pip install -U sphinx
+  - export PATH=$PATH:/home/gitlab-runner/.local/bin
+  - python -m pip install --upgrade pip
+  - pip3 install sphinx sphinx_rtd_theme
+  # - pip3 install -r requirements.txt
+  - pip3 install -e .
+  - pip3 install -U sphinx
   - sphinx-build -b html docs/source public
   artifacts:
     paths:

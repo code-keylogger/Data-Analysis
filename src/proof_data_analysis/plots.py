@@ -1,17 +1,79 @@
 from collections import Counter
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
-def plot_edits_over_time(df: pd.DataFrame) -> None:
-    """Plot the number of edits over time"""
-    # just plotting time against the index
-    plt.plot(df["Time"], list(df.index))
+
+def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
+    """Plot the number of edits, as well as tests passing over time"""
+    if not ax1:
+        fig, ax1 = plt.subplots()
+
+    ax2 = ax1.twinx()
+    # plotting the number of insertions
+
+    insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" else 0)
+    insertions = insertions.cumsum()
+    ax1.plot(times_to_seconds(df["Time"]), insertions, "o-", color="green")
+
+    deletions = df["Event_Type"].apply(lambda x: 1 if x == "delete" else 0)
+    deletions = deletions.cumsum()
+    ax1.plot(times_to_seconds(df["Time"]), deletions, "o-", color="blue")
+
+    # plotting tests passing
+    ax2.plot(
+        times_to_seconds(df["Time"]),
+        get_num_tests_passed(df["Tests_Passed"]),
+        "o-",
+        color="red",
+    )
+
     # set graph labels
-    plt.xlabel("Time")
-    plt.ylabel("Total Number of Edits")
-    plt.title("Edits Over Time")
+    ax1.set_xlabel("Time (seconds)")
+    ax1.set_ylabel("# of Edits")
+    ax2.set_ylabel("# of Tests Passing")
+    ax1.legend(["Insertions", "Deletions"], loc="upper left")
+    ax2.legend(["# of Tests Passing"], loc="lower left")
+    title = "Edits Over Time"
+    if id:
+        title += f" (ID: {id})"
+    ax1.set_title(title)
+
+    return ax1, ax2
+
+
+def plot_problem(df: pd.DataFrame, problem: str = "637690c2e5246059c7ccb834") -> None:
+    """Show multiple plots of different completions of the same problem."""
+    # group df by problem id
+    groupby_problem = df.groupby(["Problem_ID"])
+    # get the problem we want
+    problem = groupby_problem.get_group(problem)
+    # group by user id
+    session_groups = problem.groupby(["_id"])
+    # plot up to 9 sessions
+    fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(20, 20))
+    # indices for axs
+    locs = [[i, j] for i in range(3) for j in range(3)]
+    # iterate through each session
+    for i, (title, group) in enumerate(session_groups):
+        # get the location in the subplot
+        r, c = locs[i]
+        # plot the edits
+        ax1, ax2 = plot_edits(group, axs[r, c], title)
+
+        # carefully remove some y labels so they don't overlap
+        if c != 2:
+            ax2.set_ylabel("")
+
+        if c != 0:
+            ax1.set_ylabel("")
+
+        # only plot up to 9 sessions
+        if i >= 8:
+            break
 
 
 def plot_letter_count(df: pd.DataFrame) -> None:
@@ -33,15 +95,20 @@ def plot_letter_count(df: pd.DataFrame) -> None:
         # get raw representation of the text, that \n and \t are not escaped
         letter_counter[raw(row["Text_Change"])] += 1
 
+    # remove "" which is no text changed
+    letter_counter.pop('')
+
     # deal with special case of space
     empty = letter_counter.pop(" ")
-    letter_counter[repr("")] = empty
+    letter_counter[repr(" ")] = empty
 
     # plot the bar graph
     # from https://stackoverflow.com/questions/16010869/plot-a-bar-using-matplotlib-using-a-dictionary
     D = letter_counter
 
-    plt.bar(range(len(D)), list(D.values()), align="center")
+    ax, fig = plt.subplots()
+
+    fig.bar(range(len(D)), list(D.values()), align="center")
     plt.xticks(range(len(D)), list(D.keys()))
 
     plt.xlabel("Letter")
@@ -49,7 +116,7 @@ def plot_letter_count(df: pd.DataFrame) -> None:
     plt.title("Letter Count")
 
 
-# TODO: write a robust test for this
+# TODO: refactor/remove this
 def plot_jumps(df: pd.DataFrame) -> None:
     """Plot the number of jumps over time"""
     last_char_pos = -1
