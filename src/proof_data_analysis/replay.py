@@ -3,6 +3,7 @@ import threading
 import time
 import tkinter
 import sys
+import datetime
 from functools import partial
 
 
@@ -146,13 +147,25 @@ class Replay:
 
         return window
 
+    def last_text_event(self):
+        curr = 0
+        next = self.next_text_event(0)
+        while(next < len(self.events)):
+            curr = next
+            next = self.next_text_event(next + 1)
+        if curr != 0:
+            return curr
+        else:
+            return -1
+
     def replay_from_file(self, file_name: str = "../../tests/example.json"):
         with open(file_name) as file:
             file_data = json.loads(file.read())
-            self.events = file_data["events"]
-            self.start_time = int(file_data["start"])
-            self.end_time = int(file_data["end"])
-            end_time = int(file_data["end"]) - self.start_time
+            session = file_data["sessions"][0]
+            self.events = session["events"]
+            self.start_time = self.events[self.next_text_event(0)]["time"]
+            self.end_time = self.events[self.last_text_event()]["time"]
+            end_time = self.end_time - self.start_time
 
             window = self.createWindow()
 
@@ -178,7 +191,7 @@ class Replay:
             thread = threading.Thread(
                 target=self.startPlayback,
                 args=(
-                    file_data,
+                    session,
                     time_label,
                 ),
             )
