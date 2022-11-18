@@ -1,4 +1,5 @@
 from collections import Counter
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -6,7 +7,7 @@ import pandas as pd
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
 
-def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> None:
+def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
     """Plot the number of edits, as well as tests passing over time"""
     if not ax1:
         fig, ax1 = plt.subplots()
@@ -32,8 +33,8 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> None:
 
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
-    ax1.set_ylabel("Total Number of Edits")
-    ax2.set_ylabel("Number of Tests Passing")
+    ax1.set_ylabel("# of Edits")
+    ax2.set_ylabel("# of Tests Passing")
     ax1.legend(["Insertions", "Deletions"], loc="upper left")
     ax2.legend(["# of Tests Passing"], loc="lower left")
     title = "Edits Over Time"
@@ -59,15 +60,15 @@ def plot_problem(df: pd.DataFrame, problem: str = "637690c2e5246059c7ccb834") ->
     # iterate through each session
     for i, (title, group) in enumerate(session_groups):
         # get the location in the subplot
-        i, j = locs[i]
+        r, c = locs[i]
         # plot the edits
-        ax1, ax2 = plot_edits(group, axs[i, j], title)
+        ax1, ax2 = plot_edits(group, axs[r, c], title)
 
         # carefully remove some y labels so they don't overlap
-        if not i == 2:
+        if c != 2:
             ax2.set_ylabel("")
 
-        if not j == 0:
+        if c != 0:
             ax1.set_ylabel("")
 
         # only plot up to 9 sessions
