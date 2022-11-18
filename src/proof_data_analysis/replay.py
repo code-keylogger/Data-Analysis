@@ -6,6 +6,7 @@ import sys
 import datetime
 from typing import Dict
 from functools import partial
+from typing import Dict, List
 
 
 class Replay:
