@@ -2,106 +2,252 @@ import json
 import threading
 import time
 import tkinter
+import sys
+import datetime
+from typing import Dict
 from functools import partial
 from typing import Dict, List
 
-playback_speed = 1
 
-
-def set_speed(speed: float):
-    """Sets the speed of the playback. Speed is the coefficient of time, with 1 being normal speed,
-    2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
-    global playback_speed
-    playback_speed = speed
-
-
-def next_text_event(events: List[Dict], start_index: int):
-    """Starts searching the events array at start index and returns the index of the next text event
-    (including the start index if it is a text event). Returns an index out of bounds of the array
-    if there is no text event left in the array."""
-    curr_index = start_index
-    while curr_index < len(events) and "textChange" not in events[curr_index]:
-        curr_index += 1
-
-    return curr_index
-
-
-def apply_text_event(event: Dict, displayed_text: tkinter.Text):
-    """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
-    location = str(event["startLine"] + 1) + "." + str(event["startChar"])
-    if event["textChange"] == "":
-        displayed_text.delete(location)
-    else:
-        displayed_text.insert(location, event["textChange"])
-
-
-def replay(
-    file_name: str,
-    displayed_text: tkinter.Text,
-    time_label: tkinter.Label,
-    is_playing: threading.Event,
-):
-    """Attempts to open the file file_name (JSON data captured by the plugin) and then replays the captured data onto displayed_text.
-    time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
-    and will stop playing when it is cleared."""
+class Replay:
     FRAME_TIME = 0.01
     SECONDS_TO_MILLISECONDS = 1000
-    PAUSE_TIMEOUT = 10
-
-    with open(file_name) as file:
-        data = json.loads(file.read())
-        curr_time = data["start"]
-        events = data["events"]
-        curr_event = 0
-
-        while curr_event < len(events):
-            if is_playing.wait(PAUSE_TIMEOUT):
-                time.sleep(FRAME_TIME)
-                curr_time += FRAME_TIME * SECONDS_TO_MILLISECONDS * playback_speed
-                time_label.config(text=(curr_time - data["start"]) / 1000)
-
-                curr_event = next_text_event(events, curr_event)
-
-                while (
-                    curr_event < len(events) and events[curr_event]["time"] <= curr_time
-                ):
-                    apply_text_event(events[curr_event], displayed_text)
-                    curr_event = next_text_event(events, curr_event + 1)
-    print("Finished Playback")
-
-
-def replay_from_file(file: str = "example.json"):
-    """Creates the tkinter window and interface for the replay function."""
+    PAUSE_TIMEOUT = 1
+    playback_speed = 1
     is_playing = threading.Event()
+    start_time = 0
+    end_time = 0
+    curr_event = 0
+    curr_time = 0
+    slider_event = 0
+    slider_time = 0
+    displayed_time: tkinter.StringVar
+    displayed_text: tkinter.Text
+    events = []
 
-    window = tkinter.Tk()
-    play_button = tkinter.Button(text="play", command=is_playing.set)
-    pause_button = tkinter.Button(text="pause", command=is_playing.clear)
-    half_speed = tkinter.Button(text="0.5x Speed", command=partial(set_speed, 0.5))
-    normal_speed = tkinter.Button(text="Normal Speed", command=partial(set_speed, 1))
-    double_speed = tkinter.Button(text="2x Speed", command=partial(set_speed, 2))
-    quad_speed = tkinter.Button(text="4x Speed", command=partial(set_speed, 4))
-    time_label = tkinter.Label(text="Not Yet Playing")
-    text_box = tkinter.Text()
+    def set_speed(self, speed: str):
+        """Sets the speed of the playback. 
+        :param speed: Speed is the coefficient of time, with 1 being normal speed, Speed must be > 0."""
+        self.playback_speed = float(speed)
 
-    time_label.pack()
-    play_button.pack()
-    half_speed.pack()
-    normal_speed.pack()
-    double_speed.pack()
-    quad_speed.pack()
-    pause_button.pack()
-    text_box.pack()
+    def apply_text_event(self, event: Dict):
+        """Interprets the text event and applies it to the location stored in the event onto displayed_text.
+        :param event: Text event to apply"""
+        # Tkinter text objects determine location with strings in the form "lineNum.charNum"
+        # thier lines are 1 indexed, so we must increment our line indices
+        start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
+        end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
+        self.displayed_text.configure(state="normal")
 
-    thread = threading.Thread(
-        target=replay, args=(file, text_box, time_label, is_playing,),
-    )
-    thread.start()
-    window.mainloop()
+        if event["textChange"] == "":
+            self.displayed_text.delete(start_location, end_location)
+        else:
+            if start_location != end_location:
+                self.displayed_text.delete(start_location, end_location)
+            self.displayed_text.insert(start_location, event["textChange"])
+
+        self.displayed_text.configure(state="disabled")
+
+    def update_text(self):
+        """updates displayed_text with any events that have occured since curr_time was increased"""
+        next_event = self.curr_event + 1
+        while (
+                    next_event < len(self.events) and self.events[next_event]["time"] <= self.curr_time
+                ):
+                    self.apply_text_event(self.events[next_event])
+                    self.curr_event = next_event
+                    next_event += 1;
+
+    def rewind_to_time(self, time: int):
+        """Reverts the state of the playback to the specified time
+        :param time: the time, in milliseconds, to rewind to"""
+        event = 0
+        next_event = 1
+        time_absolute = time + self.start_time
+        # find the event to revet to based on the time
+        while(next_event < len(self.events) and self.events[next_event]["time"] <= time_absolute):
+            event = next_event
+            next_event += 1
+
+        if self.events[event]["time"] > time_absolute:
+            # if we have scrolled too far back
+            self.clear_text() 
+        else:
+            self.revert_to_event(event)
+        
+
+    def clear_text(self):
+        """Deletes all text from the displayed_text"""
+        self.displayed_text.configure(state="normal")
+        self.displayed_text.delete('1.0', 'end')
+        self.displayed_text.configure(state="normal")
+
+    def revert_to_event(self, event: int):
+        """Rebuilds the current state up to the specified event
+        :param event: the index of the event to revert to. This will be the last rendered event"""
+        # reset back to start state
+        self.curr_event = 0
+        self.clear_text()
+        # re-apply all events up to the current event
+        while self.curr_event < event:
+            self.apply_text_event(self.events[self.curr_event])
+            self.curr_event += 1
+        self.apply_text_event(self.events[self.curr_event])
+        
+
+    def scrub_to_event(self, event: str):
+        """Updates the playback to the event specified
+        :param event: The index of the event to revert to. Recieved from slider which makes it a string"""
+        # pause
+        self.is_playing.clear()
+
+        delta_event = int(event) - self.curr_event
+        i = self.curr_event + 1
+        self.curr_event += delta_event
+
+        if (delta_event > 0): 
+            # scrubbing forwards
+            while (i <= self.curr_event):
+                self.apply_text_event(self.events[i])
+                i += 1
+        elif (delta_event < 0):
+            # scrubbing backwards
+            next_index = int(event)
+            if next_index < len(self.events):
+                self.revert_to_event(next_index)
+
+        # adjust curr_time and displayed times        
+        self.curr_time = self.events[self.curr_event]["time"]
+        self.slider_time.set(self.curr_time - self.start_time)
+        self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
+
+    def scrub_to_time(self, time: str):
+        """Updates the playback to the time specified
+        :param time: Time, in milliseconds, to set playback to. Recieved from slider which makes it a string."""
+        # pause
+        self.is_playing.clear()
+
+        delta_time = int(time) - (self.curr_time - self.start_time)
+        self.curr_time += delta_time
+
+        if (delta_time > 0):
+            # scrubbing forwards
+            self.update_text()
+        elif (delta_time < 0):
+            # scrubbing backwards
+            self.rewind_to_time(int(time))
+        
+        # adjust displayed events (curr_event is updated by update_text and rewind_to_time)
+        self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
+        self.slider_event.set(self.curr_event)
+
+    def startPlayback(self):
+        """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
+        time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
+        and will stop playing when it is cleared."""
+        # time offset
+        self.curr_time = self.start_time
+        # print first event (since we cannot go before the first event and curr_event is always the last printed event)
+        self.apply_text_event(self.events[0])
+        while True:
+            if self.is_playing.wait(Replay.PAUSE_TIMEOUT):
+                if self.curr_time < self.end_time:
+                    # Wait for frame time and increase the current time by frame time (scaled to playback speed)
+                    time.sleep(Replay.FRAME_TIME)
+                    self.curr_time += Replay.FRAME_TIME * Replay.SECONDS_TO_MILLISECONDS * self.playback_speed
+                    # update displayed times
+                    self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
+                    self.slider_time.set(self.curr_time - self.start_time)
+                    # update displayed text and slider event
+                    self.update_text()
+                    self.slider_event.set(self.curr_event)
+                else:
+                    # pause when we reach the end of playback
+                    self.is_playing.clear()
+                    
+
+
+    def createWindow(self):
+        """Creates the tkinter window and interface for the replay function.
+        :returns: the created window"""
+        window = tkinter.Tk()
+
+        speeds = ["0.25", "0.5", "1", "2", "4"]
+        speed_label = tkinter.StringVar(window)
+        speed_label.set("1")
+
+        buttonsFrame = tkinter.Frame(window)
+        buttonsFrame.pack()
+
+        # create and pack basic conrols
+        play_button = tkinter.Button(buttonsFrame, text="play", command=self.is_playing.set)
+        pause_button = tkinter.Button(buttonsFrame, text="pause", command=self.is_playing.clear)
+        speed_dropdown = tkinter.OptionMenu(buttonsFrame, speed_label, *speeds, command=self.set_speed)
+        
+        play_button.pack(side="left")
+        pause_button.pack(side="left")
+        speed_dropdown.pack(side="left")
+
+        return window
+
+    def extract_text_events(self, events):
+        """Returns a new array with all text events from events in order
+        :param events: An array of events from a session
+        :returns: an array of only the text events from the original array, preserving order."""
+        result = [];
+        for event in events:
+            # only text events have a time field
+            if "time" in event:
+                result.append(event)
+        return result
+
+    def replay_from_file(self, file_name: str = "../../tests/example.json"):
+        """Replays the data stored in the file
+        :param file_name: relative or absolute file path."""
+        with open(file_name) as file:
+            file_data = json.loads(file.read())
+            session = file_data["sessions"][0]
+
+            self.events = self.extract_text_events(session["events"])
+            self.start_time = self.events[0]["time"]
+            self.end_time = self.events[len(self.events) - 1]["time"]
+            end_time = self.end_time - self.start_time
+
+            window = self.createWindow()
+
+            self.slider_time = tkinter.IntVar()
+            self.slider_event = tkinter.IntVar()
+            self.displayed_time = tkinter.StringVar()
+            self.displayed_time.initialize("Not Yet Playing")
+
+            time_slider = tkinter.Scale(window, from_=0, to=end_time, length=600, label="Time", showvalue=0, variable=self.slider_time, orient="horizontal", command=self.scrub_to_time);
+            event_slider = tkinter.Scale(
+                window, from_=0, to=len(self.events) - 1, length=600, label="Event", variable=self.slider_event, orient="horizontal", command=self.scrub_to_event
+                )
+
+            time_label = tkinter.Label(window, textvariable=self.displayed_time)
+            self.displayed_text = tkinter.Text(window)
+            self.displayed_text.configure(state="disabled")
+            
+            time_slider.pack()
+            event_slider.pack()
+
+            time_label.pack()
+            self.displayed_text.pack()
+
+            thread = threading.Thread(
+                target=self.startPlayback,
+            )
+            # so the thread will die when the window is closed
+            thread.daemon = True
+            thread.start()
+
+            window.mainloop()
 
 
 if __name__ == "__main__":
-    import sys
-
-    sys.path.append("../../")
-    replay_from_file("tests/example2.json")
+    playback = Replay()
+    if len(sys.argv) > 1:
+        playback.replay_from_file(sys.argv[1])
+    else:
+        playback.replay_from_file()
