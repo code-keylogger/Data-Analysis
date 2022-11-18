@@ -32,12 +32,16 @@ class Replay:
         """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
         start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
         end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
+        self.displayed_text.configure(state="normal")
+
         if event["textChange"] == "":
             self.displayed_text.delete(start_location, end_location)
         else:
             if start_location != end_location:
                 self.displayed_text.delete(start_location, end_location)
             self.displayed_text.insert(start_location, event["textChange"])
+
+        self.displayed_text.configure(state="disabled")
 
     def update_text(self):
         """updates displayed_text with any events that have occured since curr_time was increased"""
@@ -57,15 +61,20 @@ class Replay:
             next_event += 1
 
         if self.events[event]["time"] > time_absolute:
-            self.displayed_text.delete('1.0', 'end')
+            self.clear_text()
         else:
             self.revert_to_event(event)
         
 
+    def clear_text(self):
+        self.displayed_text.configure(state="normal")
+        self.displayed_text.delete('1.0', 'end')
+        self.displayed_text.configure(state="normal")
+
     def revert_to_event(self, event: int):
         """Rebuilds the current state up to the specified event"""
         self.curr_event = 0
-        self.displayed_text.delete('1.0', 'end')
+        self.clear_text()
         while self.curr_event < event:
             self.apply_text_event(self.events[self.curr_event])
             self.curr_event += 1
@@ -167,6 +176,7 @@ class Replay:
 
             time_label = tkinter.Label(text="Not Yet Playing")
             self.displayed_text = tkinter.Text()
+            self.displayed_text.configure(state="disabled")
             
             time_slider.pack()
             event_slider.pack()
