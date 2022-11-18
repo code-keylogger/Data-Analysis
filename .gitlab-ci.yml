@@ -14,7 +14,7 @@ pages:
   script:
   - export PATH=$PATH:/home/gitlab-runner/.local/bin
   - python -m pip install --upgrade pip
-  - python -m pip install --upgrade pillow
+  - python3 -m pip install pillow
   - pip3 install sphinx sphinx_rtd_theme
   - pip3 install -r requirements.txt
   - pip3 install -e .
