@@ -163,7 +163,7 @@ class Replay:
                 result.append(event)
         return result
 
-    def replay_from_file(self, file_name: str = "../../tests/example2.json"):
+    def replay_from_file(self, file_name: str = "../../tests/example.json"):
         """Replays the data stored in the file"""
         with open(file_name) as file:
             file_data = json.loads(file.read())
