@@ -32,6 +32,8 @@ class Replay:
     def apply_text_event(self, event: Dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text.
         :param event: Text event to apply"""
+        # Tkinter text objects determine location with strings in the form "lineNum.charNum"
+        # thier lines are 1 indexed, so we must increment our line indices
         start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
         end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
         self.displayed_text.configure(state="normal")
@@ -61,12 +63,14 @@ class Replay:
         event = 0
         next_event = 1
         time_absolute = time + self.start_time
+        # find the event to revet to based on the time
         while(next_event < len(self.events) and self.events[next_event]["time"] <= time_absolute):
             event = next_event
             next_event += 1
 
         if self.events[event]["time"] > time_absolute:
-            self.clear_text()
+            # if we have scrolled too far back
+            self.clear_text() 
         else:
             self.revert_to_event(event)
         
@@ -80,8 +84,10 @@ class Replay:
     def revert_to_event(self, event: int):
         """Rebuilds the current state up to the specified event
         :param event: the index of the event to revert to. This will be the last rendered event"""
+        # reset back to start state
         self.curr_event = 0
         self.clear_text()
+        # re-apply all events up to the current event
         while self.curr_event < event:
             self.apply_text_event(self.events[self.curr_event])
             self.curr_event += 1
@@ -91,18 +97,25 @@ class Replay:
     def scrub_to_event(self, event: str):
         """Updates the playback to the event specified
         :param event: The index of the event to revert to. Recieved from slider which makes it a string"""
+        # pause
         self.is_playing.clear()
+
         delta_event = int(event) - self.curr_event
         i = self.curr_event + 1
         self.curr_event += delta_event
-        if (delta_event > 0):
+
+        if (delta_event > 0): 
+            # scrubbing forwards
             while (i <= self.curr_event):
                 self.apply_text_event(self.events[i])
                 i += 1
         elif (delta_event < 0):
+            # scrubbing backwards
             next_index = int(event)
             if next_index < len(self.events):
                 self.revert_to_event(next_index)
+
+        # adjust curr_time and displayed times        
         self.curr_time = self.events[self.curr_event]["time"]
         self.slider_time.set(self.curr_time - self.start_time)
         self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
@@ -110,13 +123,20 @@ class Replay:
     def scrub_to_time(self, time: str):
         """Updates the playback to the time specified
         :param time: Time, in milliseconds, to set playback to. Recieved from slider which makes it a string."""
+        # pause
         self.is_playing.clear()
+
         delta_time = int(time) - (self.curr_time - self.start_time)
         self.curr_time += delta_time
+
         if (delta_time > 0):
+            # scrubbing forwards
             self.update_text()
         elif (delta_time < 0):
+            # scrubbing backwards
             self.rewind_to_time(int(time))
+        
+        # adjust displayed events (curr_event is updated by update_text and rewind_to_time)
         self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
         self.slider_event.set(self.curr_event)
 
@@ -124,22 +144,31 @@ class Replay:
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
         time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
         and will stop playing when it is cleared."""
+        # time offset
         self.curr_time = self.start_time
+        # print first event (since we cannot go before the first event and curr_event is always the last printed event)
         self.apply_text_event(self.events[0])
         while True:
             if self.is_playing.wait(Replay.PAUSE_TIMEOUT):
                 if self.curr_time < self.end_time:
+                    # Wait for frame time and increase the current time by frame time (scaled to playback speed)
                     time.sleep(Replay.FRAME_TIME)
                     self.curr_time += Replay.FRAME_TIME * Replay.SECONDS_TO_MILLISECONDS * self.playback_speed
+                    # update displayed times
                     self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
                     self.slider_time.set(self.curr_time - self.start_time)
+                    # update displayed text and slider event
                     self.update_text()
                     self.slider_event.set(self.curr_event)
+                else:
+                    # pause when we reach the end of playback
+                    self.is_playing.clear()
                     
 
 
     def createWindow(self):
-        """Creates the tkinter window and interface for the replay function."""
+        """Creates the tkinter window and interface for the replay function.
+        :returns: the created window"""
         window = tkinter.Tk()
 
         speeds = ["0.25", "0.5", "1", "2", "4"]
@@ -149,6 +178,7 @@ class Replay:
         buttonsFrame = tkinter.Frame(window)
         buttonsFrame.pack()
 
+        # create and pack basic conrols
         play_button = tkinter.Button(buttonsFrame, text="play", command=self.is_playing.set)
         pause_button = tkinter.Button(buttonsFrame, text="pause", command=self.is_playing.clear)
         speed_dropdown = tkinter.OptionMenu(buttonsFrame, speed_label, *speeds, command=self.set_speed)
@@ -156,7 +186,6 @@ class Replay:
         play_button.pack(side="left")
         pause_button.pack(side="left")
         speed_dropdown.pack(side="left")
-        
 
         return window
 
@@ -166,6 +195,7 @@ class Replay:
         :returns: an array of only the text events from the original array, preserving order."""
         result = [];
         for event in events:
+            # only text events have a time field
             if "time" in event:
                 result.append(event)
         return result
@@ -176,6 +206,7 @@ class Replay:
         with open(file_name) as file:
             file_data = json.loads(file.read())
             session = file_data["sessions"][0]
+
             self.events = self.extract_text_events(session["events"])
             self.start_time = self.events[0]["time"]
             self.end_time = self.events[len(self.events) - 1]["time"]
@@ -206,6 +237,7 @@ class Replay:
             thread = threading.Thread(
                 target=self.startPlayback,
             )
+            # so the thread will die when the window is closed
             thread.daemon = True
             thread.start()
 
