@@ -21,7 +21,7 @@ class Replay:
     slider_event = 0
     slider_time = 0
     displayed_time: tkinter.StringVar
-    displayed_text = {}
+    displayed_text: tkinter.Text
     events = []
 
     def set_speed(self, speed: str):
