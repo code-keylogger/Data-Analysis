@@ -44,11 +44,13 @@ class Replay:
 
     def update_text(self):
         """updates displayed_text with any events that have occured since curr_time was increased"""
+        next_event = self.curr_event + 1
         while (
-                    self.curr_event < len(self.events) and self.events[self.curr_event]["time"] <= self.curr_time
+                    next_event < len(self.events) and self.events[next_event]["time"] <= self.curr_time
                 ):
-                    self.apply_text_event(self.events[self.curr_event])
-                    self.curr_event += 1;
+                    self.apply_text_event(self.events[next_event])
+                    self.curr_event = next_event
+                    next_event += 1;
 
     def rewind_to_time(self, time: int):
         """Reverts the state of the playback to the specified time"""
@@ -121,26 +123,30 @@ class Replay:
                     self.curr_time += Replay.FRAME_TIME * Replay.SECONDS_TO_MILLISECONDS * self.playback_speed
                     time_label.config(text=(self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
                     self.displayed_time.set(self.curr_time - self.start_time)
-                    self.displayed_event.set(self.curr_event)
                     self.update_text()
+                    self.displayed_event.set(self.curr_event)
+                    
 
 
     def createWindow(self):
         """Creates the tkinter window and interface for the replay function."""
         window = tkinter.Tk()
 
-        speeds = [0.25, 0.5, 1, 2, 4]
+        speeds = ["0.25", "0.5", "1", "2", "4"]
         speed_label = tkinter.StringVar(window)
         speed_label.set("1")
 
-        play_button = tkinter.Button(window, text="play", command=self.is_playing.set)
-        pause_button = tkinter.Button(window, text="pause", command=self.is_playing.clear)
-        speed_dropdown = tkinter.OptionMenu(window, speed_label, *speeds, command=self.set_speed)
+        buttonsFrame = tkinter.Frame(window)
+        buttonsFrame.pack()
+
+        play_button = tkinter.Button(buttonsFrame, text="play", command=self.is_playing.set)
+        pause_button = tkinter.Button(buttonsFrame, text="pause", command=self.is_playing.clear)
+        speed_dropdown = tkinter.OptionMenu(buttonsFrame, speed_label, *speeds, command=self.set_speed)
         
 
-        play_button.pack()
-        pause_button.pack()
-        speed_dropdown.pack()
+        play_button.pack(side="left")
+        pause_button.pack(side="left")
+        speed_dropdown.pack(side="left")
         
 
         return window
@@ -189,7 +195,7 @@ class Replay:
             )
             thread.daemon = True
             thread.start()
-            
+
             window.mainloop()
 
 
