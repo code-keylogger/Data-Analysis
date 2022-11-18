@@ -25,12 +25,13 @@ class Replay:
     events = []
 
     def set_speed(self, speed: str):
-        """Sets the speed of the playback. Speed is the coefficient of time, with 1 being normal speed,
-        2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
+        """Sets the speed of the playback. 
+        :param speed: Speed is the coefficient of time, with 1 being normal speed, Speed must be > 0."""
         self.playback_speed = float(speed)
 
     def apply_text_event(self, event: Dict):
-        """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
+        """Interprets the text event and applies it to the location stored in the event onto displayed_text.
+        :param event: Text event to apply"""
         start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
         end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
         self.displayed_text.configure(state="normal")
@@ -55,7 +56,8 @@ class Replay:
                     next_event += 1;
 
     def rewind_to_time(self, time: int):
-        """Reverts the state of the playback to the specified time"""
+        """Reverts the state of the playback to the specified time
+        :param time: the time, in milliseconds, to rewind to"""
         event = 0
         next_event = 1
         time_absolute = time + self.start_time
@@ -76,7 +78,8 @@ class Replay:
         self.displayed_text.configure(state="normal")
 
     def revert_to_event(self, event: int):
-        """Rebuilds the current state up to the specified event"""
+        """Rebuilds the current state up to the specified event
+        :param event: the index of the event to revert to. This will be the last rendered event"""
         self.curr_event = 0
         self.clear_text()
         while self.curr_event < event:
@@ -86,7 +89,8 @@ class Replay:
         
 
     def scrub_to_event(self, event: str):
-        """Updates the playback to the event specified"""
+        """Updates the playback to the event specified
+        :param event: The index of the event to revert to. Recieved from slider which makes it a string"""
         self.is_playing.clear()
         delta_event = int(event) - self.curr_event
         i = self.curr_event + 1
@@ -104,7 +108,8 @@ class Replay:
         self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
 
     def scrub_to_time(self, time: str):
-        """Updates the playback to the time specified"""
+        """Updates the playback to the time specified
+        :param time: Time, in milliseconds, to set playback to. Recieved from slider which makes it a string."""
         self.is_playing.clear()
         delta_time = int(time) - (self.curr_time - self.start_time)
         self.curr_time += delta_time
@@ -156,7 +161,9 @@ class Replay:
         return window
 
     def extract_text_events(self, events):
-        """Returns a new array with all text events from events in order"""
+        """Returns a new array with all text events from events in order
+        :param events: An array of events from a session
+        :returns: an array of only the text events from the original array, preserving order."""
         result = [];
         for event in events:
             if "time" in event:
@@ -164,7 +171,8 @@ class Replay:
         return result
 
     def replay_from_file(self, file_name: str = "../../tests/example.json"):
-        """Replays the data stored in the file"""
+        """Replays the data stored in the file
+        :param file_name: relative or absolute file path."""
         with open(file_name) as file:
             file_data = json.loads(file.read())
             session = file_data["sessions"][0]
