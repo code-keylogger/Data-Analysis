@@ -4,6 +4,7 @@ import time
 import tkinter
 import sys
 import datetime
+from typing import Dict
 from functools import partial
 
 
@@ -19,7 +20,7 @@ class Replay:
     curr_time = 0
     slider_event = 0
     slider_time = 0
-    displayed_time = {}
+    displayed_time: tkinter.StringVar
     displayed_text = {}
     events = []
 
@@ -28,7 +29,7 @@ class Replay:
         2 being double speed, 0.5 being half speed and so on. Speed must be > 0."""
         self.playback_speed = float(speed)
 
-    def apply_text_event(self, event: dict):
+    def apply_text_event(self, event: Dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text."""
         start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
         end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
