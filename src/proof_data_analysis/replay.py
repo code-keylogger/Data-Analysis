@@ -69,6 +69,7 @@ class Replay:
         
 
     def clear_text(self):
+        """Deletes all text from the displayed_text"""
         self.displayed_text.configure(state="normal")
         self.displayed_text.delete('1.0', 'end')
         self.displayed_text.configure(state="normal")
@@ -113,7 +114,7 @@ class Replay:
         self.displayed_time.set((self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS)
         self.slider_event.set(self.curr_event)
 
-    def startPlayback(self, time_label: tkinter.Label):
+    def startPlayback(self):
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
         time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
         and will stop playing when it is cleared."""
@@ -154,6 +155,7 @@ class Replay:
         return window
 
     def extract_text_events(self, events):
+        """Returns a new array with all text events from events in order"""
         result = [];
         for event in events:
             if "time" in event:
@@ -161,6 +163,7 @@ class Replay:
         return result
 
     def replay_from_file(self, file_name: str = "../../tests/example2.json"):
+        """Replays the data stored in the file"""
         with open(file_name) as file:
             file_data = json.loads(file.read())
             session = file_data["sessions"][0]
@@ -193,9 +196,6 @@ class Replay:
 
             thread = threading.Thread(
                 target=self.startPlayback,
-                args=(
-                    time_label,
-                ),
             )
             thread.daemon = True
             thread.start()
