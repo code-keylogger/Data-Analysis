@@ -201,7 +201,7 @@ class Replay:
                 result.append(event)
         return result
 
-    def replay_from_file(self, file_name: str = "../../tests/example.json"):
+    def replay_from_file(self, file_name: str = "example.json"):
         """Replays the data stored in the file
         :param file_name: relative or absolute file path."""
         with open(file_name) as file:
