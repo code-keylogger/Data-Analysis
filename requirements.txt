@@ -2,3 +2,4 @@ pandas
 sphinx
 matplotlib
 sphinx_rtd_theme
+pytest
