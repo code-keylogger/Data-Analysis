@@ -19,7 +19,7 @@ jobs:
         uses: MrSquaare/ssh-setup-action@v1
         with:
           host: github.com
-          private-key: ${{ secrets.pages }}
+          private-key: ${{ secrets.PAGES }}
           
       - name: Install dependencies
         run: |
