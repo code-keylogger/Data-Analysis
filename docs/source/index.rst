@@ -15,5 +15,7 @@ and analysis.
    :caption: Contents:
 
    plotting.rst
+   clustering.rst
+   statistics.rst
    replay.rst
    data.rst
