@@ -161,8 +161,11 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.
     return ax1, ax2
 
 
-def plot_problem(df: pd.DataFrame, problem: str = "637690c2e5246059c7ccb834") -> None:
-    """Show multiple plots of different completions of the same problem."""
+def plot_problem(df: pd.DataFrame, problem: str) -> None:
+    """Show multiple plots of different completions of the same problem.
+
+    :param problem: Problem ID to plot, e.g. 6377c2b06f4750d88ff2a7b4
+    """
     # group df by problem id
     groupby_problem = df.groupby(["Problem_ID"])
     # get the problem we want
