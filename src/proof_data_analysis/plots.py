@@ -6,6 +6,18 @@ import pandas as pd
 
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
+def get_time_events(events, time):
+    events = events.cumsum()
+    times = []
+    true_events = []
+    last_in = 0
+    for time, num_ins in zip(times_to_seconds(time), events):
+        if num_ins > last_in:
+            times.append(time)
+            true_events.append(num_ins)
+            last_in = num_ins
+
+    return true_events, times
 
 def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
     """Plot the number of edits, as well as tests passing over time"""
@@ -15,13 +27,15 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.
     ax2 = ax1.twinx()
     # plotting the number of insertions
 
-    insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" else 0)
-    insertions = insertions.cumsum()
-    ax1.plot(times_to_seconds(df["Time"]), insertions, "o-", color="green")
+    insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" or x == "replace" else 0)
+    insertions, times = get_time_events(insertions, df["Time"])
+    
+    ax1.plot(times, insertions, "o-", color="green")
 
-    deletions = df["Event_Type"].apply(lambda x: 1 if x == "delete" else 0)
-    deletions = deletions.cumsum()
-    ax1.plot(times_to_seconds(df["Time"]), deletions, "o-", color="blue")
+    deletions = df["Event_Type"].apply(lambda x: 1 if x == "delete" or x == "replace" else 0)
+    deletions, times = get_time_events(deletions, df["Time"])
+    
+    ax1.plot(times, deletions, "o-", color="blue")
 
     # plotting tests passing
     ax2.plot(
