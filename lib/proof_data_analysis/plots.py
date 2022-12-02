@@ -3,8 +3,31 @@ from typing import Tuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
-
+    
+import numpy as np
+import ast
+import tkinter
+from matplotlib.ticker import MaxNLocator
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
+
+def apply_text_event(text, event):
+    """Interprets the text event and applies it to the location stored in the event onto displayed_text.
+    :param event: Text event to apply"""
+    # Tkinter text objects determine location with strings in the form "lineNum.charNum"
+    # their lines are 1 indexed, so we must increment our line indices
+    start_location = str(event["Start_Line"] + 1) + "." + str(event["Start_Char"])
+    end_location = str(event["End_Line"] + 1) + "." + str(event["End_Char"])
+    text.configure(state="normal")
+
+    if event["Text_Change"] == "":
+        text.delete(start_location, end_location)
+    else:
+        if start_location != end_location:
+            text.delete(start_location, end_location)
+        text.insert(start_location, event["Text_Change"])
+
+    text.configure(state="disabled")
+
 
 def get_time_events(events, time):
     events = events.cumsum()
@@ -18,6 +41,44 @@ def get_time_events(events, time):
             last_in = num_ins
 
     return true_events, times
+
+def plot_parsable(df: pd.DataFrame) -> None:
+    """Plot edit depth over time"""
+
+    fig, ax1 = plt.subplots()
+
+    text = tkinter.Text()
+    passing = np.zeros(len(df))
+
+    for i, row in df.iterrows():
+        apply_text_event(text, row)
+        try:
+            ast.parse(text.get('1.0', 'end'))
+        except:
+            passing[i] = 1
+    
+
+    ax1.plot(times_to_seconds(df["Time"]), passing, "o-", color="green")
+    ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+    
+    ax2 = ax1.twinx()
+    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+    
+    # plotting tests passing
+    ax2.plot(
+        times_to_seconds(df["Time"]),
+        get_num_tests_passed(df["Tests_Passed"]),
+        "o-",
+        color="red",
+    )
+
+    # set graph labels
+    ax1.set_xlabel("Time (seconds)")
+    ylabel = "Parsable"
+    ax1.set_ylabel(ylabel)
+    ax2.set_ylabel("# of Tests Passing")
+    ax1.legend(["Parsable"], loc="upper left")
+    ax2.legend(["# of Tests Passing"], loc="lower left")
 
 def plot_depth(df: pd.DataFrame, four=False) -> None:
     """Plot edit depth over time"""
