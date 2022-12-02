@@ -96,7 +96,7 @@ def plot_letter_count(df: pd.DataFrame) -> None:
         letter_counter[raw(row["Text_Change"])] += 1
 
     # remove "" which is no text changed
-    letter_counter.pop('')
+    letter_counter.pop("")
 
     # deal with special case of space
     empty = letter_counter.pop(" ")
