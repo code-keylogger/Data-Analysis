@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.cluster import KMeans
 
 
-def plot_kmeans_cluster(df: pd.DataFrame):
+def plot_kmeans_cluster(df: pd.DataFrame, k=3):
     """Cluster the data"""
     group_values = []
     start_char_means = []
@@ -16,7 +16,7 @@ def plot_kmeans_cluster(df: pd.DataFrame):
 
         group_values.append((start_char_mean, start_line_mean))
 
-    kmeans = KMeans(n_clusters=3, random_state=0).fit(group_values)
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(group_values)
 
     def get_color(val: int) -> str:
         if val == 0:
@@ -36,4 +36,10 @@ def plot_kmeans_cluster(df: pd.DataFrame):
 
     colors = [get_color(val) for val in kmeans.labels_]
 
-    plt.scatter(start_char_means, start_line_means, color=colors)
+    fig, ax1 = plt.subplots()
+    ax1.scatter(start_char_means, start_line_means, color=colors)
+
+    ax1.set_xlabel("Start Char Mean")
+    ax1.set_ylabel("Start Line Mean")
+
+    plt.title("K Means Clustering (k={k})".format(k=k))

@@ -41,17 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.apply_text_event"><code class="docutils literal notranslate"><span class="pre">apply_text_event()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.get_time_events"><code class="docutils literal notranslate"><span class="pre">get_time_events()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_depth"><code class="docutils literal notranslate"><span class="pre">plot_depth()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_edits"><code class="docutils literal notranslate"><span class="pre">plot_edits()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_jumps"><code class="docutils literal notranslate"><span class="pre">plot_jumps()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_letter_count"><code class="docutils literal notranslate"><span class="pre">plot_letter_count()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_parsable"><code class="docutils literal notranslate"><span class="pre">plot_parsable()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#proof_data_analysis.plots.plot_problem"><code class="docutils literal notranslate"><span class="pre">plot_problem()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../replay/">Replay</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../data/">Data</a></li>
 </ul>
@@ -80,56 +70,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-proof_data_analysis.plots">
-<span id="plotting"></span><h1>Plotting<a class="headerlink" href="#module-proof_data_analysis.plots" title="Permalink to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.apply_text_event">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">apply_text_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#proof_data_analysis.plots.apply_text_event" title="Permalink to this definition"></a></dt>
-<dd><p>Interprets the text event and applies it to the location stored in the event onto displayed_text.
-:param event: Text event to apply</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.get_time_events">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">get_time_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#proof_data_analysis.plots.get_time_events" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_depth">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">four</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_depth" title="Permalink to this definition"></a></dt>
-<dd><p>Plot edit depth over time</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_edits">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_edits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_edits" title="Permalink to this definition"></a></dt>
-<dd><p>Plot the number of edits, as well as tests passing over time</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_jumps">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_jumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_jumps" title="Permalink to this definition"></a></dt>
-<dd><p>Plot the number of jumps over time</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_letter_count">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_letter_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_letter_count" title="Permalink to this definition"></a></dt>
-<dd><p>Plot a bar graph of the number of times each letter was typed</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_parsable">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_parsable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_parsable" title="Permalink to this definition"></a></dt>
-<dd><p>Plot edit depth over time</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="proof_data_analysis.plots.plot_problem">
-<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.plots.</span></span><span class="sig-name descname"><span class="pre">plot_problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'637690c2e5246059c7ccb834'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#proof_data_analysis.plots.plot_problem" title="Permalink to this definition"></a></dt>
-<dd><p>Show multiple plots of different completions of the same problem.</p>
-</dd></dl>
-
+  <section id="plotting">
+<h1>Plotting<a class="headerlink" href="#plotting" title="Permalink to this heading"></a></h1>
 </section>
 
 
