@@ -104,6 +104,8 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
         color="red",
     )
 
+    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
     ylabel = "Depth of edit"
