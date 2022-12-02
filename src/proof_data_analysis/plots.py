@@ -1,14 +1,15 @@
+import ast
+import tkinter
 from collections import Counter
 from typing import Tuple
 
 import matplotlib.pyplot as plt
-import pandas as pd
-    
 import numpy as np
-import ast
-import tkinter
+import pandas as pd
 from matplotlib.ticker import MaxNLocator
+
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
+
 
 def apply_text_event(text, event):
     """Interprets the text event and applies it to the location stored in the event onto displayed_text.
@@ -42,6 +43,7 @@ def get_time_events(events, time):
 
     return true_events, times
 
+
 def plot_parsable(df: pd.DataFrame) -> None:
     """Plot edit depth over time"""
 
@@ -53,17 +55,16 @@ def plot_parsable(df: pd.DataFrame) -> None:
     for i, row in df.iterrows():
         apply_text_event(text, row)
         try:
-            ast.parse(text.get('1.0', 'end'))
+            ast.parse(text.get("1.0", "end"))
         except:
             passing[i] = 1
-    
 
     ax1.plot(times_to_seconds(df["Time"]), passing, "o-", color="green")
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
-    
+
     ax2 = ax1.twinx()
     ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
-    
+
     # plotting tests passing
     ax2.plot(
         times_to_seconds(df["Time"]),
@@ -80,6 +81,7 @@ def plot_parsable(df: pd.DataFrame) -> None:
     ax1.legend(["Parsable"], loc="upper left")
     ax2.legend(["# of Tests Passing"], loc="lower left")
 
+
 def plot_depth(df: pd.DataFrame, four=False) -> None:
     """Plot edit depth over time"""
 
@@ -93,7 +95,7 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
     ax1.plot(times_to_seconds(df["Time"]), depth, "o-", color="green")
 
     ax2 = ax1.twinx()
-    
+
     # plotting tests passing
     ax2.plot(
         times_to_seconds(df["Time"]),
@@ -112,6 +114,7 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
     ax1.legend(["Edit"], loc="upper left")
     ax2.legend(["# of Tests Passing"], loc="lower left")
 
+
 def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
     """Plot the number of edits, as well as tests passing over time"""
     if not ax1:
@@ -120,14 +123,18 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.
     ax2 = ax1.twinx()
     # plotting the number of insertions
 
-    insertions = df["Event_Type"].apply(lambda x: 1 if x == "insert" or x == "replace" else 0)
+    insertions = df["Event_Type"].apply(
+        lambda x: 1 if x == "insert" or x == "replace" else 0
+    )
     insertions, times = get_time_events(insertions, df["Time"])
-    
+
     ax1.plot(times, insertions, "o-", color="green")
 
-    deletions = df["Event_Type"].apply(lambda x: 1 if x == "delete" or x == "replace" else 0)
+    deletions = df["Event_Type"].apply(
+        lambda x: 1 if x == "delete" or x == "replace" else 0
+    )
     deletions, times = get_time_events(deletions, df["Time"])
-    
+
     ax1.plot(times, deletions, "o-", color="blue")
 
     # plotting tests passing
