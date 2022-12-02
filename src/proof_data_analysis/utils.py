@@ -47,9 +47,19 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
     for session in sessions:
         for event in session["events"]:
             if "startLine" in event:
-                time = datetime.datetime.fromtimestamp(event["time"] / 1000)
                 # store the time/text changed in the dataframe
+                time = datetime.datetime.fromtimestamp(event["time"] / 1000)
+                operation = ""
 
+                start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
+                end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
+                if event["textChange"] == "" or start_location != end_location:
+                    operation = "delete"
+                if event["textChange"] != "":
+                    if operation == "delete":
+                        operation = "replace"
+                    else:
+                        operation = "insert"
                 df.loc[len(df)] = (
                     session["_id"],
                     session["userID"],
@@ -63,8 +73,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
                     event["startChar"],
                     event["endChar"],
                     event["testsPassed"],
-                    # TODO: refactor this; this is a hack
-                    "delete" if event["textChange"] == "" else "insert",
+                    operation,
                 )
 
     return df
