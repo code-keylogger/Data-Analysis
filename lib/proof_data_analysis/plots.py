@@ -11,7 +11,7 @@ from matplotlib.ticker import MaxNLocator
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
 
-def apply_text_event(text, event):
+def _apply_text_event(text, event):
     """Interprets the text event and applies it to the location stored in the event onto displayed_text.
     :param event: Text event to apply"""
     # Tkinter text objects determine location with strings in the form "lineNum.charNum"
@@ -53,7 +53,7 @@ def plot_parsable(df: pd.DataFrame) -> None:
     passing = np.zeros(len(df))
 
     for i, row in df.iterrows():
-        apply_text_event(text, row)
+        _apply_text_event(text, row)
         try:
             ast.parse(text.get("1.0", "end"))
         except:
