@@ -19,6 +19,38 @@ def get_time_events(events, time):
 
     return true_events, times
 
+def plot_depth(df: pd.DataFrame, four=False) -> None:
+    """Plot edit depth over time"""
+
+    fig, ax1 = plt.subplots()
+
+    depth = df["Start_Char"]
+
+    if four:
+        depth = depth.apply(lambda x: x // 4)
+
+    ax1.plot(times_to_seconds(df["Time"]), depth, "o-", color="green")
+
+    ax2 = ax1.twinx()
+    
+    # plotting tests passing
+    ax2.plot(
+        times_to_seconds(df["Time"]),
+        get_num_tests_passed(df["Tests_Passed"]),
+        "o-",
+        color="red",
+    )
+
+    # set graph labels
+    ax1.set_xlabel("Time (seconds)")
+    ylabel = "Depth of edit"
+    if four:
+        ylabel += " by indent (4 spaces)"
+    ax1.set_ylabel(ylabel)
+    ax2.set_ylabel("# of Tests Passing")
+    ax1.legend(["Edit"], loc="upper left")
+    ax2.legend(["# of Tests Passing"], loc="lower left")
+
 def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
     """Plot the number of edits, as well as tests passing over time"""
     if not ax1:
