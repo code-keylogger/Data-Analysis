@@ -30,7 +30,7 @@ def _apply_text_event(text, event):
     text.configure(state="disabled")
 
 
-def get_time_events(events, time):
+def _get_time_events(events, time):
     events = events.cumsum()
     times = []
     true_events = []
@@ -131,14 +131,14 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.
     insertions = df["Event_Type"].apply(
         lambda x: 1 if x == "insert" or x == "replace" else 0
     )
-    insertions, times = get_time_events(insertions, df["Time"])
+    insertions, times = _get_time_events(insertions, df["Time"])
 
     ax1.plot(times, insertions, "o-", color="green")
 
     deletions = df["Event_Type"].apply(
         lambda x: 1 if x == "delete" or x == "replace" else 0
     )
-    deletions, times = get_time_events(deletions, df["Time"])
+    deletions, times = _get_time_events(deletions, df["Time"])
 
     ax1.plot(times, deletions, "o-", color="blue")
 
