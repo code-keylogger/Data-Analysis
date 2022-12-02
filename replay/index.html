@@ -42,7 +42,10 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../plotting/">Plotting</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Replay</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Replay</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-replay-tool">Running the replay tool</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../data/">Data</a></li>
 </ul>
 
@@ -72,6 +75,17 @@
              
   <section id="replay">
 <h1>Replay<a class="headerlink" href="#replay" title="Permalink to this heading"></a></h1>
+<section id="running-the-replay-tool">
+<h2>Running the replay tool<a class="headerlink" href="#running-the-replay-tool" title="Permalink to this heading"></a></h2>
+<p>To start a replay, simply execute the script with the data file as the command line argument.
+The file specified must be a properly formatted JSON data file as retrieved from the server.
+The file argument can be the relative or absolute path for the file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python replay.py session.json
+</pre></div>
+</div>
+<p>After running the script, the tool will open in a new window. In order to start playback select a session from the dropdown menu
+and then press “Play”</p>
+</section>
 </section>
 
 
