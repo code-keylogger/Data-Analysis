@@ -97,7 +97,7 @@
                     "endLine": 0,
                     "endChar": 3,
                     "textChange": " ",
-                    "testsPassed": [],
+                    "testsPassed": [1],
                     "time": 1668653244822
                 },
                 {
@@ -125,7 +125,7 @@
                     "endLine": 0,
                     "endChar": 4,
                     "textChange": "binomial2(n, k)",
-                    "testsPassed": [],
+                    "testsPassed": [1,2],
                     "time": 1668653244846
                 },
                 {
@@ -153,7 +153,7 @@
                     "endLine": 0,
                     "endChar": 19,
                     "textChange": ":",
-                    "testsPassed": [],
+                    "testsPassed": [1,2],
                     "time": 1668653245390
                 },
                 {
