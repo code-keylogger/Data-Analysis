@@ -96,6 +96,9 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
 
     ax2 = ax1.twinx()
 
+    ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+
     # plotting tests passing
     ax2.plot(
         times_to_seconds(df["Time"]),
@@ -108,7 +111,7 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
 
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
-    ylabel = "Depth of edit"
+    ylabel = "Depth of edit (characters)"
     if four:
         ylabel += " by indent (4 spaces)"
     ax1.set_ylabel(ylabel)
