@@ -28,7 +28,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
     # create an empty dataframe
     df = pd.DataFrame(
         columns=[
-            "_id",
+            "Session_ID",
             "User_ID",
             "Problem_ID",
             "Problem_Start_Time",
@@ -51,7 +51,9 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
                 time = datetime.datetime.fromtimestamp(event["time"] / 1000)
                 operation = ""
 
-                start_location = str(event["startLine"] + 1) + "." + str(event["startChar"])
+                start_location = (
+                    str(event["startLine"] + 1) + "." + str(event["startChar"])
+                )
                 end_location = str(event["endLine"] + 1) + "." + str(event["endChar"])
                 if event["textChange"] == "" or start_location != end_location:
                     operation = "delete"
