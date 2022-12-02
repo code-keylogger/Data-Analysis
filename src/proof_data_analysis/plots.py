@@ -166,7 +166,7 @@ def plot_problem(df: pd.DataFrame, problem: str = "637690c2e5246059c7ccb834") ->
     # get the problem we want
     problem = groupby_problem.get_group(problem)
     # group by user id
-    session_groups = problem.groupby(["_id"])
+    session_groups = problem.groupby(["Session_ID"])
     # plot up to 9 sessions
     fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(20, 20))
     # indices for axs
