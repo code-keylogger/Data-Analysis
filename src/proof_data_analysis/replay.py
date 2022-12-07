@@ -53,7 +53,7 @@ class Replay:
         :param speed: Speed is the coefficient of time, with 1 being normal speed, Speed must be > 0."""
         self.playback_speed = float(speed)
 
-    def apply_text_event(self, event: Dict):
+    def _apply_text_event(self, event: Dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text.
         :param event: Text event to apply"""
         # Tkinter text objects determine location with strings in the form "lineNum.charNum"
@@ -71,7 +71,7 @@ class Replay:
 
         self.displayed_text.configure(state="disabled")
 
-    def update_text(self):
+    def _update_text(self):
         """Updates displayed_text with any events that have occured since curr_time was increased"""
         next_event = self.curr_event + 1
         while (
@@ -82,7 +82,7 @@ class Replay:
             self.curr_event = next_event
             next_event += 1
 
-    def rewind_to_time(self, time: int):
+    def _rewind_to_time(self, time: int):
         """Reverts the state of the playback to the specified time
         :param time: the time, in ms, to rewind to. This time is relative
         to the duration of the playback, with 0 being the start of the playback"""
@@ -103,13 +103,13 @@ class Replay:
         else:
             self.revert_to_event(event)
 
-    def clear_text(self):
+    def _clear_text(self):
         """Deletes all text from displayed_text"""
         self.displayed_text.configure(state="normal")
         self.displayed_text.delete("1.0", "end")
         self.displayed_text.configure(state="normal")
 
-    def revert_to_event(self, event: int):
+    def _revert_to_event(self, event: int):
         """Rebuilds the current state up to the specified event
         :param event: the index of the event to revert to. This will be the last rendered event"""
         # reset back to start state
@@ -171,7 +171,7 @@ class Replay:
         )
         self.slider_event.set(self.curr_event)
 
-    def start_playback(self):
+    def _start_playback(self):
         """Replays the captured data (JSON data captured by the plugin) onto displayed_text.
         time_label is used to display the current time, in seconds of the playback from the start. The playback will play while is_playing is set
         and will stop playing when it is cleared."""
@@ -200,7 +200,7 @@ class Replay:
                     # pause when we reach the end of playback
                     self.is_playing.clear()
 
-    def create_window(self, file_name: str):
+    def _create_window(self, file_name: str):
         """Creates the tkinter window and interface for the replay function.
         :returns: the created window"""
         window = tkinter.Tk()
@@ -273,7 +273,7 @@ class Replay:
 
         return window
 
-    def extract_text_events(self, events: List):
+    def _extract_text_events(self, events: List):
         """Returns a new array with all text events from events in order
         :param events: An array of events from a session
         :returns: an array of only the text events from the original array, preserving order."""
