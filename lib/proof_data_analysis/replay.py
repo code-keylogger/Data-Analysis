@@ -78,7 +78,7 @@ class Replay:
             next_event < len(self.events)
             and self.events[next_event]["time"] <= self.curr_time
         ):
-            self.apply_text_event(self.events[next_event])
+            self._apply_text_event(self.events[next_event])
             self.curr_event = next_event
             next_event += 1
 
@@ -99,9 +99,9 @@ class Replay:
 
         if self.events[event]["time"] > time_absolute:
             # if we have scrolled too far back
-            self.clear_text()
+            self._clear_text()
         else:
-            self.revert_to_event(event)
+            self._revert_to_event(event)
 
     def _clear_text(self):
         """Deletes all text from displayed_text"""
@@ -114,12 +114,12 @@ class Replay:
         :param event: the index of the event to revert to. This will be the last rendered event"""
         # reset back to start state
         self.curr_event = 0
-        self.clear_text()
+        self._clear_text()
         # re-apply all events up to the current event
         while self.curr_event < event:
-            self.apply_text_event(self.events[self.curr_event])
+            self._apply_text_event(self.events[self.curr_event])
             self.curr_event += 1
-        self.apply_text_event(self.events[self.curr_event])
+        self._apply_text_event(self.events[self.curr_event])
 
     def scrub_to_event(self, event: str):
         """Updates the playback to the event specified
@@ -134,13 +134,13 @@ class Replay:
         if delta_event > 0:
             # scrubbing forwards
             while i <= self.curr_event:
-                self.apply_text_event(self.events[i])
+                self._apply_text_event(self.events[i])
                 i += 1
         elif delta_event <= 0:
             # scrubbing backwards
             next_index = int(event)
             if next_index < len(self.events):
-                self.revert_to_event(next_index)
+                self._revert_to_event(next_index)
 
         # adjust curr_time and displayed times
         self.curr_time = self.events[self.curr_event]["time"]
@@ -160,10 +160,10 @@ class Replay:
 
         if delta_time > 0:
             # scrubbing forwards
-            self.update_text()
+            self._update_text()
         elif delta_time < 0:
             # scrubbing backwards
-            self.rewind_to_time(int(time))
+            self._rewind_to_time(int(time))
 
         # adjust displayed events (curr_event is updated by update_text and rewind_to_time)
         self.displayed_time.set(
@@ -194,7 +194,7 @@ class Replay:
                     )
                     self.slider_time.set(self.curr_time - self.start_time)
                     # update displayed text and slider event
-                    self.update_text()
+                    self._update_text()
                     self.slider_event.set(self.curr_event)
                 else:
                     # pause when we reach the end of playback
@@ -293,7 +293,7 @@ class Replay:
         :param session_num: index of the session to open"""
         session = self.file_data["sessions"][session_num]
 
-        self.events = self.extract_text_events(session["events"])
+        self.events = self._extract_text_events(session["events"])
         if len(self.events) == 0:
         # error case when there are no events in the session
            self.time_slider.config(to=0)
@@ -315,10 +315,10 @@ class Replay:
         :param file_name: relative or absolute file path."""
         with open(file_name) as file:
             self.file_data = json.loads(file.read())
-            window = self.create_window(file_name)
+            window = self._create_window(file_name)
 
             thread = threading.Thread(
-                target=self.start_playback,
+                target=self._start_playback,
             )
             # so the thread will die when the window is closed
             thread.daemon = True
