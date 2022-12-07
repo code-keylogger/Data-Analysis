@@ -15,13 +15,15 @@ class Replay:
     PAUSE_TIMEOUT = 1
     """Sets the timeout in seconds for the wait method in start_playback()"""
     SLIDER_LENGTH = 600
-    file_data = {}
+    file_data: Dict = {}
     """Entire JSON object loaded in from the argument file"""
     playback_speed = 1
     """Speed is the coefficient of time, with 1 being normal speed,
      Speed must be > 0."""
     is_playing = threading.Event()
     """Stops playback when cleared, resumes when set"""
+    curr_session_valid = False
+    """Error flag to stop playback when the current session is invalid"""
     start_time = 0
     """Absolute time of the first event in ms"""
     end_time = 0
@@ -52,6 +54,16 @@ class Replay:
         """Sets the speed of the playback.
         :param speed: Speed is the coefficient of time, with 1 being normal speed, Speed must be > 0."""
         self.playback_speed = float(speed)
+
+    def set_displayed_time(self, text: str):
+        try:
+            tot_seconds = float(text)
+            string = "{minutes}:{seconds:.2f}"
+            self.displayed_time.set(string.format(minutes = int(tot_seconds / 60), seconds = tot_seconds % 60))
+        except ValueError:
+            # if we aren't passed a parsable string, then just print the text
+            self.displayed_time.set(text)
+        
 
     def _apply_text_event(self, event: Dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text.
@@ -97,7 +109,7 @@ class Replay:
             event = next_event
             next_event += 1
 
-        if self.events[event]["time"] > time_absolute:
+        if event not in range(len(self.events)) or self.events[event]["time"] > time_absolute:
             # if we have scrolled too far back
             self._clear_text()
         else:
@@ -143,11 +155,18 @@ class Replay:
                 self._revert_to_event(next_index)
 
         # adjust curr_time and displayed times
-        self.curr_time = self.events[self.curr_event]["time"]
-        self.slider_time.set(self.curr_time - self.start_time)
-        self.displayed_time.set(
-            (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
-        )
+        if self.curr_event in range(len(self.events)):
+            self.curr_time = self.events[self.curr_event]["time"]
+            self.slider_time.set(self.curr_time - self.start_time)
+            self.set_displayed_time(
+                (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
+            )
+        else:
+            # self.current event is out of bounds
+            self.curr_time = 0
+            self.slider_time.set(0)
+            self.set_displayed_time(0)
+
 
     def scrub_to_time(self, time: str):
         """Updates the playback to the time specified
@@ -166,7 +185,7 @@ class Replay:
             self._rewind_to_time(int(time))
 
         # adjust displayed events (curr_event is updated by update_text and rewind_to_time)
-        self.displayed_time.set(
+        self.set_displayed_time(
             (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
         )
         self.slider_event.set(self.curr_event)
@@ -180,22 +199,27 @@ class Replay:
         while True:
             if self.is_playing.wait(Replay.PAUSE_TIMEOUT):
                 if self.curr_time < self.end_time:
-                    # Wait for frame time and increase the current time by frame time (scaled to playback speed)
+                    # Wait for frame time
                     time.sleep(Replay.FRAME_TIME)
-                    self.curr_time += (
-                        Replay.FRAME_TIME
-                        * Replay.SECONDS_TO_MILLISECONDS
-                        * self.playback_speed
-                    )
-                    # update displayed times
-                    self.displayed_time.set(
-                        (self.curr_time - self.start_time)
-                        / Replay.SECONDS_TO_MILLISECONDS
-                    )
-                    self.slider_time.set(self.curr_time - self.start_time)
-                    # update displayed text and slider event
-                    self._update_text()
-                    self.slider_event.set(self.curr_event)
+                    if self.curr_session_valid:
+                    # increase the current time by frame time (scaled to playback speed)
+                        self.curr_time += (
+                            Replay.FRAME_TIME
+                            * Replay.SECONDS_TO_MILLISECONDS
+                            * self.playback_speed
+                        )
+                        # update displayed times
+                        self.set_displayed_time(
+                            (self.curr_time - self.start_time)
+                            / Replay.SECONDS_TO_MILLISECONDS
+                        )
+                        self.slider_time.set(self.curr_time - self.start_time)
+                        # update displayed text and slider event
+                        self._update_text()
+                        self.slider_event.set(self.curr_event)
+                    else:
+                        # error case for sessions with no events (when swapping sessions while playing)
+                        self.set_displayed_time("There are no events in this session!")  
                 else:
                     # pause when we reach the end of playback
                     self.is_playing.clear()
@@ -208,9 +232,6 @@ class Replay:
 
         speeds = ["0.25", "0.5", "1", "2", "4"]
         sessions = range(len(self.file_data["sessions"]))
-
-        if len(sessions) == 0:
-            print("No sessions in this file!")
 
         self.slider_time = tkinter.IntVar()
         self.slider_event = tkinter.IntVar()
@@ -300,6 +321,8 @@ class Replay:
            self.event_slider.config(to=0)
 
            self._clear_text()
+           self.curr_session_valid = False
+           self.set_displayed_time("There are no events in this session!")
         else:
             self.start_time = self.events[0]["time"]
             self.end_time = self.events[len(self.events) - 1]["time"]
@@ -309,12 +332,26 @@ class Replay:
             self.event_slider.config(to=len(self.events) - 1)
 
             self.scrub_to_event(0)
+            self.curr_session_valid = True
 
     def replay_from_file(self, file_name: str):
         """Replays the data stored in the file
         :param file_name: relative or absolute file path."""
         with open(file_name) as file:
-            self.file_data = json.loads(file.read())
+            try:
+                self.file_data: Dict = json.loads(file.read())
+            except json.JSONDecodeError:
+                print("The file: \"" + file_name + "\" was not a vaild JSON file")
+                return
+
+            # error cases for malformed data
+            if "sessions" not in self.file_data.keys():
+                print("The file: \"" + file_name + "\" was not a vaild data file, no sessions field present")
+                return
+            elif len(self.file_data["sessions"]) == 0:
+                print("The file: \"" + file_name + "\" has no sessions")
+                return
+
             window = self._create_window(file_name)
 
             thread = threading.Thread(
