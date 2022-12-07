@@ -15,7 +15,7 @@ class Replay:
     PAUSE_TIMEOUT = 1
     """Sets the timeout in seconds for the wait method in start_playback()"""
     SLIDER_LENGTH = 600
-    file_data = {}
+    file_data: Dict = {}
     """Entire JSON object loaded in from the argument file"""
     playback_speed = 1
     """Speed is the coefficient of time, with 1 being normal speed,
@@ -209,9 +209,6 @@ class Replay:
         speeds = ["0.25", "0.5", "1", "2", "4"]
         sessions = range(len(self.file_data["sessions"]))
 
-        if len(sessions) == 0:
-            print("No sessions in this file!")
-
         self.slider_time = tkinter.IntVar()
         self.slider_event = tkinter.IntVar()
         self.displayed_time = tkinter.StringVar()
@@ -314,7 +311,20 @@ class Replay:
         """Replays the data stored in the file
         :param file_name: relative or absolute file path."""
         with open(file_name) as file:
-            self.file_data = json.loads(file.read())
+            try:
+                self.file_data: Dict = json.loads(file.read())
+            except json.JSONDecodeError:
+                print("The file: " + file_name + " was not a vaild JSON file")
+                return
+
+            # error cases for malformed data
+            if "sessions" not in self.file_data.keys():
+                print("The file: " + file_name + " was not a vaild data file, no sessions field present")
+                return
+            elif len(self.file_data["sessions"]) == 0:
+                print("The file: " + file_name + " has no sessions")
+                return
+
             window = self._create_window(file_name)
 
             thread = threading.Thread(
