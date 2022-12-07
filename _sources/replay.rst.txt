@@ -9,6 +9,7 @@ The file specified must be a properly formatted JSON data file as retrieved from
 The file argument can be the relative or absolute path for the file.
 
 For example, to open a file called "sessions.json" that is located in the same directory as the script:
+
 .. code-block:: bash
 
     python replay.py sessions.json
