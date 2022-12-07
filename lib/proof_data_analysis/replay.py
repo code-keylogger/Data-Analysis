@@ -21,7 +21,7 @@ class Replay:
     """Speed is the coefficient of time, with 1 being normal speed,
      Speed must be > 0."""
     is_playing = threading.Event()
-    """Stops playback when cleared"""
+    """Stops playback when cleared, resumes when set"""
     start_time = 0
     """Absolute time of the first event in ms"""
     end_time = 0
@@ -209,6 +209,9 @@ class Replay:
         speeds = ["0.25", "0.5", "1", "2", "4"]
         sessions = range(len(self.file_data["sessions"]))
 
+        if len(sessions) == 0:
+            print("No sessions in this file!")
+
         self.slider_time = tkinter.IntVar()
         self.slider_event = tkinter.IntVar()
         self.displayed_time = tkinter.StringVar()
@@ -291,14 +294,21 @@ class Replay:
         session = self.file_data["sessions"][session_num]
 
         self.events = self.extract_text_events(session["events"])
-        self.start_time = self.events[0]["time"]
-        self.end_time = self.events[len(self.events) - 1]["time"]
-        duration = self.end_time - self.start_time
+        if len(self.events) == 0:
+        # error case when there are no events in the session
+           self.time_slider.config(to=0)
+           self.event_slider.config(to=0)
 
-        self.time_slider.config(to=duration)
-        self.event_slider.config(to=len(self.events) - 1)
+           self._clear_text()
+        else:
+            self.start_time = self.events[0]["time"]
+            self.end_time = self.events[len(self.events) - 1]["time"]
+            duration = self.end_time - self.start_time
 
-        self.scrub_to_event(0)
+            self.time_slider.config(to=duration)
+            self.event_slider.config(to=len(self.events) - 1)
+
+            self.scrub_to_event(0)
 
     def replay_from_file(self, file_name: str):
         """Replays the data stored in the file
