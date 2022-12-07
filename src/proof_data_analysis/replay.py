@@ -314,15 +314,15 @@ class Replay:
             try:
                 self.file_data: Dict = json.loads(file.read())
             except json.JSONDecodeError:
-                print("The file: " + file_name + " was not a vaild JSON file")
+                print("The file: \"" + file_name + "\" was not a vaild JSON file")
                 return
 
             # error cases for malformed data
             if "sessions" not in self.file_data.keys():
-                print("The file: " + file_name + " was not a vaild data file, no sessions field present")
+                print("The file: \"" + file_name + "\" was not a vaild data file, no sessions field present")
                 return
             elif len(self.file_data["sessions"]) == 0:
-                print("The file: " + file_name + " has no sessions")
+                print("The file: \"" + file_name + "\" has no sessions")
                 return
 
             window = self._create_window(file_name)
