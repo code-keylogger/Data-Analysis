@@ -55,6 +55,16 @@ class Replay:
         :param speed: Speed is the coefficient of time, with 1 being normal speed, Speed must be > 0."""
         self.playback_speed = float(speed)
 
+    def set_displayed_time(self, text: str):
+        try:
+            tot_seconds = float(text)
+            string = "{minutes}:{seconds:.2f}"
+            self.displayed_time.set(string.format(minutes = int(tot_seconds / 60), seconds = tot_seconds % 60))
+        except ValueError:
+            # if we aren't passed a parsable string, then just print the text
+            self.displayed_time.set(text)
+        
+
     def _apply_text_event(self, event: Dict):
         """Interprets the text event and applies it to the location stored in the event onto displayed_text.
         :param event: Text event to apply"""
@@ -148,14 +158,14 @@ class Replay:
         if self.curr_event in range(len(self.events)):
             self.curr_time = self.events[self.curr_event]["time"]
             self.slider_time.set(self.curr_time - self.start_time)
-            self.displayed_time.set(
+            self.set_displayed_time(
                 (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
             )
         else:
             # self.current event is out of bounds
             self.curr_time = 0
             self.slider_time.set(0)
-            self.displayed_time.set(0)
+            self.set_displayed_time(0)
 
 
     def scrub_to_time(self, time: str):
@@ -175,7 +185,7 @@ class Replay:
             self._rewind_to_time(int(time))
 
         # adjust displayed events (curr_event is updated by update_text and rewind_to_time)
-        self.displayed_time.set(
+        self.set_displayed_time(
             (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
         )
         self.slider_event.set(self.curr_event)
@@ -199,7 +209,7 @@ class Replay:
                             * self.playback_speed
                         )
                         # update displayed times
-                        self.displayed_time.set(
+                        self.set_displayed_time(
                             (self.curr_time - self.start_time)
                             / Replay.SECONDS_TO_MILLISECONDS
                         )
@@ -209,7 +219,7 @@ class Replay:
                         self.slider_event.set(self.curr_event)
                     else:
                         # error case for sessions with no events (when swapping sessions while playing)
-                        self.displayed_time.set("There are no events in this session!")  
+                        self.set_displayed_time("There are no events in this session!")  
                 else:
                     # pause when we reach the end of playback
                     self.is_playing.clear()
@@ -312,7 +322,7 @@ class Replay:
 
            self._clear_text()
            self.curr_session_valid = False
-           self.displayed_time.set("There are no events in this session!")
+           self.set_displayed_time("There are no events in this session!")
         else:
             self.start_time = self.events[0]["time"]
             self.end_time = self.events[len(self.events) - 1]["time"]
