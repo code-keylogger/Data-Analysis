@@ -297,6 +297,7 @@ class Replay:
            self.event_slider.config(to=0)
 
            self._clear_text()
+           self.displayed_time.set("There are no events in this session!")
         else:
             self.start_time = self.events[0]["time"]
             self.end_time = self.events[len(self.events) - 1]["time"]
