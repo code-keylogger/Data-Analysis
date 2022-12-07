@@ -22,6 +22,8 @@ class Replay:
      Speed must be > 0."""
     is_playing = threading.Event()
     """Stops playback when cleared, resumes when set"""
+    curr_session_valid = False
+    """Error flag to stop playback when the current session is invalid"""
     start_time = 0
     """Absolute time of the first event in ms"""
     end_time = 0
@@ -97,7 +99,7 @@ class Replay:
             event = next_event
             next_event += 1
 
-        if self.events[event]["time"] > time_absolute:
+        if event not in range(len(self.events)) or self.events[event]["time"] > time_absolute:
             # if we have scrolled too far back
             self._clear_text()
         else:
@@ -143,11 +145,18 @@ class Replay:
                 self._revert_to_event(next_index)
 
         # adjust curr_time and displayed times
-        self.curr_time = self.events[self.curr_event]["time"]
-        self.slider_time.set(self.curr_time - self.start_time)
-        self.displayed_time.set(
-            (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
-        )
+        if self.curr_event in range(len(self.events)):
+            self.curr_time = self.events[self.curr_event]["time"]
+            self.slider_time.set(self.curr_time - self.start_time)
+            self.displayed_time.set(
+                (self.curr_time - self.start_time) / Replay.SECONDS_TO_MILLISECONDS
+            )
+        else:
+            # self.current event is out of bounds
+            self.curr_time = 0
+            self.slider_time.set(0)
+            self.displayed_time.set(0)
+
 
     def scrub_to_time(self, time: str):
         """Updates the playback to the time specified
@@ -180,22 +189,27 @@ class Replay:
         while True:
             if self.is_playing.wait(Replay.PAUSE_TIMEOUT):
                 if self.curr_time < self.end_time:
-                    # Wait for frame time and increase the current time by frame time (scaled to playback speed)
+                    # Wait for frame time
                     time.sleep(Replay.FRAME_TIME)
-                    self.curr_time += (
-                        Replay.FRAME_TIME
-                        * Replay.SECONDS_TO_MILLISECONDS
-                        * self.playback_speed
-                    )
-                    # update displayed times
-                    self.displayed_time.set(
-                        (self.curr_time - self.start_time)
-                        / Replay.SECONDS_TO_MILLISECONDS
-                    )
-                    self.slider_time.set(self.curr_time - self.start_time)
-                    # update displayed text and slider event
-                    self._update_text()
-                    self.slider_event.set(self.curr_event)
+                    if self.curr_session_valid:
+                    # increase the current time by frame time (scaled to playback speed)
+                        self.curr_time += (
+                            Replay.FRAME_TIME
+                            * Replay.SECONDS_TO_MILLISECONDS
+                            * self.playback_speed
+                        )
+                        # update displayed times
+                        self.displayed_time.set(
+                            (self.curr_time - self.start_time)
+                            / Replay.SECONDS_TO_MILLISECONDS
+                        )
+                        self.slider_time.set(self.curr_time - self.start_time)
+                        # update displayed text and slider event
+                        self._update_text()
+                        self.slider_event.set(self.curr_event)
+                    else:
+                        # error case for sessions with no events (when swapping sessions while playing)
+                        self.displayed_time.set("There are no events in this session!")  
                 else:
                     # pause when we reach the end of playback
                     self.is_playing.clear()
@@ -297,6 +311,7 @@ class Replay:
            self.event_slider.config(to=0)
 
            self._clear_text()
+           self.curr_session_valid = False
            self.displayed_time.set("There are no events in this session!")
         else:
             self.start_time = self.events[0]["time"]
@@ -307,6 +322,7 @@ class Replay:
             self.event_slider.config(to=len(self.events) - 1)
 
             self.scrub_to_event(0)
+            self.curr_session_valid = True
 
     def replay_from_file(self, file_name: str):
         """Replays the data stored in the file
