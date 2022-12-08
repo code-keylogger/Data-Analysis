@@ -4,6 +4,7 @@ import sys
 import threading
 import time
 import tkinter
+from tkinter import ttk
 from functools import partial
 from typing import Dict, List
 
@@ -40,6 +41,8 @@ class Replay:
     """Controls the position of the time slider"""
     displayed_time: tkinter.StringVar
     """The time displayed above the playback window"""
+    displayed_session: tkinter.StringVar
+    """The session displayed at the top of the window"""
     displayed_text: tkinter.Text
     """The playback window, should always be state="disabled" unless writing to it to prevent the user
     from typing into it"""
@@ -47,6 +50,8 @@ class Replay:
     """The slider that allows time scrubbing of the playback"""
     event_slider: tkinter.Scale
     """The slider that allows event scrubbing of the playback"""
+    sessions_view: ttk.Treeview
+    """The view where the user can select a new session"""
     events = []
     """List of all text events in the current session"""
 
@@ -230,28 +235,44 @@ class Replay:
         window = tkinter.Tk()
         window.title("Replay Tool: " + file_name)
 
-        speeds = ["0.25", "0.5", "1", "2", "4"]
-        sessions = range(len(self.file_data["sessions"]))
+        # create notebook (tabs)
+        self.displayed_session = tkinter.StringVar()
+        self.displayed_session.initialize("Please Select a Session")
+        session_label = tkinter.Label(window, textvariable=self.displayed_session)
+        notebook = ttk.Notebook(window)
+        session_label.pack()
+        notebook.pack()
 
-        self.slider_time = tkinter.IntVar()
-        self.slider_event = tkinter.IntVar()
-        self.displayed_time = tkinter.StringVar()
-        self.displayed_time.initialize("Not Yet Playing")
+        # create frames
+        playback_frame = ttk.Frame(notebook, width=600, height=500)
+        sessions_frame = ttk.Frame(notebook, width=600, height=500)
+
+        playback_frame.pack(fill='both', expand=True)
+        sessions_frame.pack(fill='both', expand=True)
+
+        notebook.add(playback_frame, text="Playback")
+        notebook.add(sessions_frame, text="Session Selection")
 
         # create basic structure and labels
-        buttonsFrame = tkinter.Frame(window)
-        time_label = tkinter.Label(window, textvariable=self.displayed_time)
-        self.displayed_text = tkinter.Text(window)
+        self.displayed_time = tkinter.StringVar()
+        self.displayed_time.initialize("No Session Selected")
+
+        buttonsFrame = tkinter.Frame(playback_frame)
+        time_label = tkinter.Label(playback_frame, textvariable=self.displayed_time)
+
+        self.displayed_text = tkinter.Text(playback_frame)
         self.displayed_text.configure(state="disabled")
 
         speed_label = tkinter.Label(buttonsFrame, text="Playback Speed:")
-        speed_text = tkinter.StringVar(window)
-        sessions_label = tkinter.Label(buttonsFrame, text="Session Selection:")
-        sessions_text = tkinter.IntVar(window)
+        speed_text = tkinter.StringVar(playback_frame)
         speed_text.set("1")
-        sessions_text.set("Please Select a Session")
 
-        # create basic conrols
+        # create playback conrols
+        speeds = ["0.25", "0.5", "1", "2", "4"]
+
+        self.slider_time = tkinter.IntVar()
+        self.slider_event = tkinter.IntVar()
+
         play_button = tkinter.Button(
             buttonsFrame, text="Play", command=self.is_playing.set
         )
@@ -261,11 +282,8 @@ class Replay:
         speed_dropdown = tkinter.OptionMenu(
             buttonsFrame, speed_text, *speeds, command=self.set_speed
         )
-        sessions_dropdown = tkinter.OptionMenu(
-            buttonsFrame, sessions_text, *sessions, command=self.open_session
-        )
         self.time_slider = tkinter.Scale(
-            window,
+            playback_frame,
             length=self.SLIDER_LENGTH,
             label="Time",
             showvalue=0,
@@ -274,7 +292,7 @@ class Replay:
             command=self.scrub_to_time,
         )
         self.event_slider = tkinter.Scale(
-            window,
+            playback_frame,
             length=self.SLIDER_LENGTH,
             label="Event",
             variable=self.slider_event,
@@ -282,14 +300,49 @@ class Replay:
             command=self.scrub_to_event,
         )
 
-        # pack all GUI elements
+        # create session selection controls
+        columns = ["session_num", "session_id", "user_id", "problem_id", "start_time"]
+
+        self.sessions_view = ttk.Treeview(sessions_frame, columns=columns, show='headings', height=20)
+
+        self.sessions_view.column("session_num", width=100)
+        self.sessions_view.heading("session_num", text="Session Number")
+        self.sessions_view.heading("session_id", text="Session ID")
+        self.sessions_view.heading("user_id", text="User ID")
+        self.sessions_view.heading("problem_id", text="Problem ID")
+        self.sessions_view.heading("start_time", text="Start Time")
+
+        # extract and insert sessions data
+        for session_num in range(len(self.file_data["sessions"])):
+            try:
+                session_id = str(self.file_data["sessions"][session_num]["_id"])
+                user_id = str(self.file_data["sessions"][session_num]["userID"])
+                problem_id = str(self.file_data["sessions"][session_num]["problemID"])
+                start_time = str(self.file_data["sessions"][session_num]["start"])
+
+                self.sessions_view.insert(
+                    "", tkinter.END, values=(str(session_num), session_id, user_id, problem_id, start_time)
+                    )
+            except KeyError:
+                # if this session lacked the necessary fields
+                print("Session number: " + str(session_num) + "was malformed")
+
+        self.sessions_view.grid(row=0, column=0, sticky='nsew')
+        self.sessions_view.bind('<ButtonRelease-1>', self._open_session)
+
+        # scrollbar for sesssions view
+        scrollbar = ttk.Scrollbar(sessions_frame, orient=tkinter.VERTICAL, command=self.sessions_view.yview)
+        self.sessions_view.configure(yscroll=scrollbar.set)
+        scrollbar.grid(row=0, column=1, sticky='ns')
+
+        
+
+        # pack GUI elements
         buttonsFrame.pack()
         play_button.pack(side="left")
         pause_button.pack(side="left")
         speed_label.pack(side="left")
         speed_dropdown.pack(side="left")
-        sessions_label.pack(side="left")
-        sessions_dropdown.pack(side="left")
         self.time_slider.pack()
         self.event_slider.pack()
         time_label.pack()
@@ -308,11 +361,18 @@ class Replay:
                 result.append(event)
         return result
 
-    def open_session(self, session_num: int):
+    def _open_session(self, event):
+        """Opens the clicked session"""
+        selected_session = self.sessions_view.focus()
+        self.open_session_num(self.sessions_view.item(selected_session)["values"][0])
+
+    def open_session_num(self, session_num: int):
         """Opens the specified session, re-initializing values and updating
         the necessary GUI configs, then resets playback to event 0
         :param session_num: index of the session to open"""
         session = self.file_data["sessions"][session_num]
+
+        self.displayed_session.set("Current Session: " + str(session_num))
 
         self.events = self._extract_text_events(session["events"])
         if len(self.events) == 0:
