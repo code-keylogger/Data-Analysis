@@ -34,3 +34,11 @@ Now, click on the "Playback" tab to return to playback, the current session bein
 
 .. image:: images/replay4.png
     :width: 600
+
+Simply click "Play" to start the playback, you can adjust the playback speed using the dropdown, or scrub through the playback using one of the two scrub bars.
+
+Errors and Troubleshooting
+*********************************
+
+Why do certain sessions not appear in the sessions view?
+    If a particualr session does not have all of the fields normally required of a session, it will not be displayed in the sessions view.
