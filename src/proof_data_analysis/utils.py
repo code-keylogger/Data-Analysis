@@ -5,7 +5,7 @@ from typing import Dict
 import pandas as pd
 
 
-def load_json(path: str = "example.json") -> Dict:
+def _load_json(path: str = "example.json") -> Dict:
     """Load the json file containing the keylogged events.
 
     :param path: path to the json file
@@ -24,7 +24,7 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
     :param path_to_json: path to the json file with the keylogged events
     :return: a pandas dataframe with a row for each keylogged event"""
     # load json
-    json_object = load_json(path_to_json)
+    json_object = _load_json(path_to_json)
     # get the list of events
     sessions = json_object["sessions"]
     # create an empty dataframe

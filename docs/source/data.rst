@@ -63,3 +63,7 @@ Keyboard Events
         "testsPassed": [],
         "time": 1666896719657
     },
+
+.. automodule:: proof_data_analysis.utils
+   :members: 
+   :undoc-members:
