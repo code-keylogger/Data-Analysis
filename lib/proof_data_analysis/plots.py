@@ -61,7 +61,7 @@ def _get_time_events(events, time):
 
 
 def plot_parsable(df: pd.DataFrame) -> None:
-    """Plot edit depth over time.
+    """Plot parsability over time.
     
     .. image:: ../static/parsable.png
         :alt: parsable text
