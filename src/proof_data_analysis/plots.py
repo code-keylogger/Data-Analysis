@@ -20,8 +20,10 @@ def _apply_text_event(text, event):
     end_location = str(event["End_Line"] + 1) + "." + str(event["End_Char"])
     text.configure(state="normal")
 
+    # check for deletion
     if event["Text_Change"] == "":
         text.delete(start_location, end_location)
+    # check for insertion
     else:
         if start_location != end_location:
             text.delete(start_location, end_location)
@@ -31,10 +33,12 @@ def _apply_text_event(text, event):
 
 
 def _get_time_events(events, time):
+    """Get the number of events at each time stamp."""
     events = events.cumsum()
     times = []
     true_events = []
     last_in = 0
+    # get the number of events at each time stamp
     for time, num_ins in zip(times_to_seconds(time), events):
         if num_ins > last_in:
             times.append(time)
@@ -45,17 +49,17 @@ def _get_time_events(events, time):
 
 
 def plot_parsable(df: pd.DataFrame) -> None:
-    """Plot edit depth over time
+    """Plot edit depth over time.
     
     .. image:: ../static/parsable.png
         :alt: parsable text
     """
 
     fig, ax1 = plt.subplots()
-
+    
     text = tkinter.Text()
     passing = np.zeros(len(df))
-
+    # check if each text is parsable
     for i, row in df.iterrows():
         _apply_text_event(text, row)
         try:
@@ -63,6 +67,7 @@ def plot_parsable(df: pd.DataFrame) -> None:
         except:
             passing[i] = 1
 
+    # plot
     ax1.plot(times_to_seconds(df["Time"]), passing, "o-", color="green")
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
 
@@ -88,6 +93,8 @@ def plot_parsable(df: pd.DataFrame) -> None:
 
 def plot_depth(df: pd.DataFrame, four=False) -> None:
     """Plot edit depth over time.
+
+    :param four: If true, divide depth by 4 to get the number of indents.
     
     .. image:: ../static/depth.png
         :alt: depth text
@@ -97,6 +104,7 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
 
     depth = df["Start_Char"]
 
+    # divide by 4 to get the number of indents
     if four:
         depth = depth.apply(lambda x: x // 4)
 
