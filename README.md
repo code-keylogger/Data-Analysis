@@ -2,15 +2,8 @@
 
 ## This repo contains Python data analysis scripts for collected proof/programming data.
 
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fcode-keylogger.github.io%2FData-Analysis%2F)
+
 https://code-keylogger.github.io/Data-Analysis/
 
-Documentation is build using Sphinx (automated docs website builder) and 
-stored in docs/
 
-To launch the website locally, run
-
-`pip install sphinx-autobuild`
-
-`sphinx-autobuild docs/source build/`
-
-To perform code styling, run `make` in the root directory.
