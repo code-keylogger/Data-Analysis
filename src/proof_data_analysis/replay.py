@@ -301,16 +301,17 @@ class Replay:
         )
 
         # create session selection controls
-        columns = ["session_num", "session_id", "user_id", "problem_id", "start_time"]
-
+        columns = ["session_num", "session_id", "user_id", "problem_id", "start_time", "num_events"]
         self.sessions_view = ttk.Treeview(sessions_frame, columns=columns, show='headings', height=25)
 
         self.sessions_view.column("session_num", width=100)
+        self.sessions_view.column("num_events", width=50)
         self.sessions_view.heading("session_num", text="Session Number")
         self.sessions_view.heading("session_id", text="Session ID")
         self.sessions_view.heading("user_id", text="User ID")
         self.sessions_view.heading("problem_id", text="Problem ID")
         self.sessions_view.heading("start_time", text="Start Time")
+        self.sessions_view.heading("num_events", text="Events")
 
         # extract and insert sessions data
         for session_num in range(len(self.file_data["sessions"])):
@@ -319,9 +320,10 @@ class Replay:
                 user_id = str(self.file_data["sessions"][session_num]["userID"])
                 problem_id = str(self.file_data["sessions"][session_num]["problemID"])
                 start_time = str(self.file_data["sessions"][session_num]["start"])
+                events = str(len(self.file_data["sessions"][session_num]["events"]))
 
                 self.sessions_view.insert(
-                    "", tkinter.END, values=(str(session_num), session_id, user_id, problem_id, start_time)
+                    "", tkinter.END, values=(str(session_num), session_id, user_id, problem_id, start_time, events)
                     )
             except KeyError:
                 # if this session lacked the necessary fields
@@ -334,8 +336,6 @@ class Replay:
         scrollbar = ttk.Scrollbar(sessions_frame, orient=tkinter.VERTICAL, command=self.sessions_view.yview)
         self.sessions_view.configure(yscroll=scrollbar.set)
         scrollbar.grid(row=0, column=1, sticky='ns')
-
-        
 
         # pack GUI elements
         buttonsFrame.pack()
