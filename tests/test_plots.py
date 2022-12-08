@@ -1,4 +1,4 @@
-from proof_data_analysis.plots import plot_edits, plot_jumps, plot_letter_count
+from proof_data_analysis.plots import plot_edits, plot_line_changes, plot_letter_count
 from proof_data_analysis.utils import load_df
 
 
@@ -8,4 +8,4 @@ class TestPlots:
         df = load_df("tests/example.json")
         plot_edits(df)
         plot_letter_count(df)
-        plot_jumps(df)
+        plot_line_changes(df)
