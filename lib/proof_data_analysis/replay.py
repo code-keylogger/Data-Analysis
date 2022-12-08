@@ -241,11 +241,11 @@ class Replay:
         session_label = tkinter.Label(window, textvariable=self.displayed_session)
         notebook = ttk.Notebook(window)
         session_label.pack()
-        notebook.pack()
+        notebook.pack(fill='both', expand=True)
 
         # create frames
         playback_frame = ttk.Frame(notebook, width=600, height=500)
-        sessions_frame = ttk.Frame(notebook, width=600, height=500)
+        sessions_frame = ttk.Frame(notebook)
 
         playback_frame.pack(fill='both', expand=True)
         sessions_frame.pack(fill='both', expand=True)
@@ -303,7 +303,7 @@ class Replay:
         # create session selection controls
         columns = ["session_num", "session_id", "user_id", "problem_id", "start_time"]
 
-        self.sessions_view = ttk.Treeview(sessions_frame, columns=columns, show='headings', height=20)
+        self.sessions_view = ttk.Treeview(sessions_frame, columns=columns, show='headings', height=25)
 
         self.sessions_view.column("session_num", width=100)
         self.sessions_view.heading("session_num", text="Session Number")
