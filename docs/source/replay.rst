@@ -42,3 +42,4 @@ Errors and Troubleshooting
 
 Why do certain sessions not appear in the sessions view?
     If a particualr session does not have all of the fields normally required of a session, it will not be displayed in the sessions view.
+    You can identify which sesssions were ignored by looking at the console output of the script.
