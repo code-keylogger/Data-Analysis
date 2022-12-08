@@ -126,6 +126,8 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
     ax2.set_ylabel("# of Tests Passing")
     ax1.legend(["Edit"], loc="upper left")
     ax2.legend(["# of Tests Passing"], loc="lower left")
+      
+    plt.title(ylabel)
 
 
 def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
