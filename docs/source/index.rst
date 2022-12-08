@@ -31,6 +31,12 @@ You can also install for local development via:
    cd Data-Analysis
    pip install -e .
 
+Basic Usage
+************   
+
+To see a complete example of all functionality being used, see the example in
+`docs/scripts/gen_images.ipynb`.
+
 
 Documentation
 ************************
@@ -51,6 +57,7 @@ To perform code styling, do the following (make sure you are at the package root
 .. code-block:: bash
 
    make
+
 
 
 .. toctree::
