@@ -48,6 +48,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#keyboard-events">Keyboard Events</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-proof_data_analysis.utils">Loading data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#proof_data_analysis.utils.get_num_tests_passed"><code class="docutils literal notranslate"><span class="pre">get_num_tests_passed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proof_data_analysis.utils.load_df"><code class="docutils literal notranslate"><span class="pre">load_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proof_data_analysis.utils.times_to_seconds"><code class="docutils literal notranslate"><span class="pre">times_to_seconds()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../plotting/">Plotting</a></li>
@@ -139,6 +145,41 @@ extracted from the VSCode API: <a class="reference external" href="https://code.
 </pre></div>
 </div>
 </section>
+</section>
+<section id="module-proof_data_analysis.utils">
+<span id="loading-data"></span><h2>Loading data<a class="headerlink" href="#module-proof_data_analysis.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="proof_data_analysis.utils.get_num_tests_passed">
+<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.utils.</span></span><span class="sig-name descname"><span class="pre">get_num_tests_passed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tests_passed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="headerlink" href="#proof_data_analysis.utils.get_num_tests_passed" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a series of tests passed to a series of numbers</p>
+<p>Each resulting datapoint is just the number of tests passed</p>
+<p>e.g. [[1,2], [3,4], [1,2,3]] -&gt; [2, 2, 3]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="proof_data_analysis.utils.load_df">
+<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.utils.</span></span><span class="sig-name descname"><span class="pre">load_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_json</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'example.json'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#proof_data_analysis.utils.load_df" title="Permalink to this definition"></a></dt>
+<dd><p>Load the json file containing the keylogged events and convert
+it to a pandas dataframe.</p>
+<p>There are 3 events listed here, insert, replace, and delete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path_to_json</strong> – path to the json file with the keylogged events</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a pandas dataframe with a row for each keylogged event</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="proof_data_analysis.utils.times_to_seconds">
+<span class="sig-prename descclassname"><span class="pre">proof_data_analysis.utils.</span></span><span class="sig-name descname"><span class="pre">times_to_seconds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="headerlink" href="#proof_data_analysis.utils.times_to_seconds" title="Permalink to this definition"></a></dt>
+<dd><p>Convert a series of time stamps to seconds</p>
+<p>Each resulting datapoint is just the amount of seconds from the
+first time stamp</p>
+</dd></dl>
+
 </section>
 </section>
 
