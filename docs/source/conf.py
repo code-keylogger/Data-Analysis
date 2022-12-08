@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Proof Data Analysis'
-copyright = '2022, Sander Schulhoff'
-author = 'Sander Schulhoff'
+copyright = '2022, Sander Schulhoff, Nathan Young'
+author = 'Sander Schulhoff, Nathan Young'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
