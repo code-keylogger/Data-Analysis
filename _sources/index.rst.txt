@@ -9,13 +9,17 @@ Welcome to Proof Data Analysis's documentation!
 Documented here are all of the functions that you will need for data visualization
 and analysis.
 
+Make sure to read the data section first to understand how to obtain the data, 
+and how it is formatted.
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   data.rst
    plotting.rst
    clustering.rst
    statistics.rst
    replay.rst
-   data.rst
+   
