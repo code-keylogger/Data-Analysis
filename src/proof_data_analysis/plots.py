@@ -10,6 +10,18 @@ from matplotlib.ticker import MaxNLocator
 
 from proof_data_analysis.utils import get_num_tests_passed, times_to_seconds
 
+def _set_tests_passing(ax: plt.Axes, df: pd.DataFrame) -> None:
+    """Set the tests passing axis."""
+    ax2 = ax.twinx()
+    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax2.plot(
+        times_to_seconds(df["Time"]),
+        get_num_tests_passed(df["Tests_Passed"]),
+        "o-",
+        color="red",
+    )
+    ax2.set_ylabel("# of Tests Passing")
+    ax2.legend(["# of Tests Passing"], loc="lower left")
 
 def _apply_text_event(text, event):
     """Interprets the text event and applies it to the location stored in the event onto displayed_text.
@@ -75,20 +87,15 @@ def plot_parsable(df: pd.DataFrame) -> None:
     ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
 
     # plotting tests passing
-    ax2.plot(
-        times_to_seconds(df["Time"]),
-        get_num_tests_passed(df["Tests_Passed"]),
-        "o-",
-        color="red",
-    )
+    _set_tests_passing(ax2, df)
 
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
     ylabel = "Parsable"
     ax1.set_ylabel(ylabel)
-    ax2.set_ylabel("# of Tests Passing")
     ax1.legend(["Parsable"], loc="upper left")
-    ax2.legend(["# of Tests Passing"], loc="lower left")
+
+
 
 
 def plot_depth(df: pd.DataFrame, four=False) -> None:
@@ -113,17 +120,8 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
     ax2 = ax1.twinx()
 
     ax1.yaxis.set_major_locator(MaxNLocator(integer=True))
-    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
 
-    # plotting tests passing
-    ax2.plot(
-        times_to_seconds(df["Time"]),
-        get_num_tests_passed(df["Tests_Passed"]),
-        "o-",
-        color="red",
-    )
-
-    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
+    _set_tests_passing(ax2, df)
 
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
@@ -131,9 +129,7 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
     if four:
         ylabel += " by indent (4 spaces)"
     ax1.set_ylabel(ylabel)
-    ax2.set_ylabel("# of Tests Passing")
     ax1.legend(["Edit"], loc="upper left")
-    ax2.legend(["# of Tests Passing"], loc="lower left")
       
     plt.title(ylabel)
 
@@ -164,20 +160,12 @@ def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.
 
     ax1.plot(times, deletions, "o-", color="blue")
 
-    # plotting tests passing
-    ax2.plot(
-        times_to_seconds(df["Time"]),
-        get_num_tests_passed(df["Tests_Passed"]),
-        "o-",
-        color="red",
-    )
+    _set_tests_passing(ax2, df)
 
     # set graph labels
     ax1.set_xlabel("Time (seconds)")
     ax1.set_ylabel("# of Edits")
-    ax2.set_ylabel("# of Tests Passing")
     ax1.legend(["Insertions", "Deletions"], loc="upper left")
-    ax2.legend(["# of Tests Passing"], loc="lower left")
     title = "Edits Over Time"
     if id:
         title += f" (ID: {id})"
