@@ -12,6 +12,22 @@ and analysis.
 Make sure to read the data section first to understand how to obtain the data, 
 and how it is formatted.
 
+Here is some information on installation:
+
+
+The easiest way to install Proof Data Analysis is to do so straight from Github
+
+.. code-block:: bash
+
+   pip install git+https://github.com/code-keylogger/Data-Analysis.git
+
+You can also install for local development via:
+
+.. code-block:: bash
+
+   cd Data-Analysis
+   pip install -e .
+
 
 .. toctree::
    :maxdepth: 2
