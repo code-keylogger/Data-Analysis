@@ -12,7 +12,7 @@ and analysis.
 Make sure to read the data section first to understand how to obtain the data, 
 and how it is formatted.
 
-Here is some information on installation:
+Here is some information on installation and development:
 
 
 The easiest way to install Proof Data Analysis is to do so straight from Github
@@ -27,6 +27,20 @@ You can also install for local development via:
 
    cd Data-Analysis
    pip install -e .
+
+
+To run the documentation website locally, do the following (make sure you are at the package root)
+
+.. code-block:: bash
+
+   pip install sphinx-autobuild
+   sphinx-autobuild docs/source build/
+
+To perform code styling, do the following (make sure you are at the package root):
+
+.. code-block:: bash
+
+   make
 
 
 .. toctree::
