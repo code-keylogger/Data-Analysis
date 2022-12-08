@@ -15,6 +15,9 @@ and how it is formatted.
 Here is some information on installation and development:
 
 
+Installation
+************
+
 The easiest way to install Proof Data Analysis is to do so straight from Github
 
 .. code-block:: bash
@@ -29,12 +32,19 @@ You can also install for local development via:
    pip install -e .
 
 
+Documentation
+************************
+
+This project uses Sphinx, a documentation tool that builds a website from the source code.
 To run the documentation website locally, do the following (make sure you are at the package root)
 
 .. code-block:: bash
 
    pip install sphinx-autobuild
    sphinx-autobuild docs/source build/
+
+Styling
+************
 
 To perform code styling, do the following (make sure you are at the package root):
 
