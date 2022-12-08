@@ -26,3 +26,11 @@ to open the session selection view.
     :width: 600
 
 Once you have switched views, select the desired session by clicking on it. The current session will update above to indicate that you have opened that session.
+
+.. image:: images/replay3.png
+    :width: 600
+
+Now, click on the "Playback" tab to return to playback, the current session being replayed will still be the one you have selected.
+
+.. image:: images/replay4.png
+    :width: 600
