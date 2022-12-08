@@ -45,7 +45,11 @@ def _get_time_events(events, time):
 
 
 def plot_parsable(df: pd.DataFrame) -> None:
-    """Plot edit depth over time"""
+    """Plot edit depth over time
+    
+    .. image:: ../static/parsable.png
+        :alt: parsable text
+    """
 
     fig, ax1 = plt.subplots()
 
@@ -83,7 +87,11 @@ def plot_parsable(df: pd.DataFrame) -> None:
 
 
 def plot_depth(df: pd.DataFrame, four=False) -> None:
-    """Plot edit depth over time"""
+    """Plot edit depth over time.
+    
+    .. image:: ../static/depth.png
+        :alt: depth text
+    """
 
     fig, ax1 = plt.subplots()
 
@@ -121,7 +129,11 @@ def plot_depth(df: pd.DataFrame, four=False) -> None:
 
 
 def plot_edits(df: pd.DataFrame, ax1=None, id: str = "") -> Tuple[plt.axes, plt.axes]:
-    """Plot the number of edits, as well as tests passing over time"""
+    """Plot the number of edits, as well as tests passing over time.
+    
+    .. image:: ../static/edits.png
+        :alt: edits text
+    """
     if not ax1:
         fig, ax1 = plt.subplots()
 
@@ -168,6 +180,9 @@ def plot_problem(df: pd.DataFrame, problem: str) -> None:
     """Show multiple plots of different completions of the same problem.
 
     :param problem: Problem ID to plot, e.g. 6377c2b06f4750d88ff2a7b4
+
+    .. image:: ../static/multi_problem.png
+        :alt: multi_problem text
     """
     # group df by problem id
     groupby_problem = df.groupby(["Problem_ID"])
@@ -199,7 +214,11 @@ def plot_problem(df: pd.DataFrame, problem: str) -> None:
 
 
 def plot_letter_count(df: pd.DataFrame) -> None:
-    """Plot a bar graph of the number of times each letter was typed"""
+    """Plot a bar graph of the number of times each letter was typed.
+    
+    .. image:: ../static/letter_count.png
+        :alt: letter_count text
+    """
 
     # from https://stackoverflow.com/questions/26520111/how-can-i-convert-special-characters-in-a-string-back-into-escape-sequences
     def raw(string: str, replace: bool = False) -> str:
@@ -238,18 +257,19 @@ def plot_letter_count(df: pd.DataFrame) -> None:
     plt.title("Letter Count")
 
 
-# TODO: refactor/remove this
-def plot_jumps(df: pd.DataFrame) -> None:
-    """Plot the number of jumps over time"""
-    last_char_pos = -1
+def plot_line_changes(df: pd.DataFrame) -> None:
+    """Plot the number of line changes over time.
+    
+    .. image:: ../static/line_changes.png
+        :alt: line_changes text
+    """
     last_line_pos = -1
     jumps = []
     for i, row in df.iterrows():
         jumped = False
-        if row["Start_Char"] <= last_char_pos:
-            if row["Start_Line"] > last_line_pos and row["Start_Char"] != 0:
-                jumped = True
-        last_char_pos = row["End_Char"]
+        if row["Start_Line"] != last_line_pos:
+            jumped = True
+
         last_line_pos = row["End_Line"]
         jumps.append(jumped)
 
@@ -263,5 +283,5 @@ def plot_jumps(df: pd.DataFrame) -> None:
     plt.plot(list(df.index), y_vals)
 
     plt.xlabel("Total Number of Edits")
-    plt.ylabel("Number of Jumps")
-    plt.title("Jumps Over Time")
+    plt.ylabel("Number of Line Changes")
+    plt.title("Line Changes Over Time")

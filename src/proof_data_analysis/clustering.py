@@ -4,11 +4,15 @@ from sklearn.cluster import KMeans
 
 
 def plot_kmeans_cluster(df: pd.DataFrame, k=3):
-    """Cluster the data"""
+    """Cluster the by session id using kmeans and plot the result. 
+    
+    .. image:: ../static/kmeans.png
+        :alt: kmeans text
+    """
     group_values = []
     start_char_means = []
     start_line_means = []
-    for i, group in df.groupby(["Session_ID", "Problem_ID"]):
+    for i, group in df.groupby(["Session_ID"]):
         start_char_mean = group["Start_Char"].mean()
         start_line_mean = group["Start_Line"].mean()
         start_char_means.append(start_char_mean)
