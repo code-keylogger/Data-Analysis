@@ -19,6 +19,8 @@ def load_df(path_to_json: str = "example.json") -> pd.DataFrame:
     """Load the json file containing the keylogged events and convert
     it to a pandas dataframe.
 
+    There are 3 events listed here, insert, replace, and delete.
+
     :param path_to_json: path to the json file with the keylogged events
     :return: a pandas dataframe with a row for each keylogged event"""
     # load json

@@ -9,19 +9,25 @@ def plot_kmeans_cluster(df: pd.DataFrame, k=3):
     .. image:: ../static/kmeans.png
         :alt: kmeans text
     """
+    # keep track of values
     group_values = []
     start_char_means = []
     start_line_means = []
-    for i, group in df.groupby(["Session_ID"]):
+    # iterate through sessions
+    for _, group in df.groupby(["Session_ID"]):
+        # get start char and start line means
         start_char_mean = group["Start_Char"].mean()
         start_line_mean = group["Start_Line"].mean()
+        # add to lists
         start_char_means.append(start_char_mean)
         start_line_means.append(start_line_mean)
-
+        # add to group values
         group_values.append((start_char_mean, start_line_mean))
 
+    # cluster the data
     kmeans = KMeans(n_clusters=k, random_state=0).fit(group_values)
 
+    # get colors
     def get_color(val: int) -> str:
         if val == 0:
             return "green"
@@ -38,8 +44,10 @@ def plot_kmeans_cluster(df: pd.DataFrame, k=3):
         else:
             raise "Not enough colors"
 
+    # get colors for kmeans labels
     colors = [get_color(val) for val in kmeans.labels_]
 
+    # plot the data
     fig, ax1 = plt.subplots()
     ax1.scatter(start_char_means, start_line_means, color=colors)
 
